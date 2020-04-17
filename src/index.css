@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: url('./assets/background.jpg');
+	background-position: cover;
+  background-repeat: no-repeat;
+}
+
