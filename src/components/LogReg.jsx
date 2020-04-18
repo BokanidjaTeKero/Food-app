@@ -6,29 +6,60 @@ import axios from 'axios';
 class LogReg extends Component {
 
     state = {
+
+        allUsers : [],
+        activeUser : [],
         
         logEmail : '',
         logPassword : '',
         regName : '',
         regEmail : '',
-        regPassword : ''
+        regPassword : '',
+
+        notification : '',
+        notifications : {
+            regName : 'The Name must be a minimum of two characters',
+            regPassword : 'The Password must be a minimum of eight characters',
+            regSuccessfully : 'Now you can log in. Thank you for being part of your recipe.',
+            regUnsuccessfully : 'Sorry, something is wrong. Please try again.',
+            regUserExist : 'A user with this email address already exists',
+            logSuccessfully : 'Welcome back. What is on the menu for today?',
+            logUnsuccessfully : 'Email or password do not match any results. Try again, or register if you have not yet.'
+        },
+
+        status : null,
         
     }
 
 componentDidMount() {
     document.getElementById('container').classList.add('slide-in-fwd-tr');
+    this.getAllUsers();
 }
 
-registerClick = () => {
-    document.getElementById('overlay-panel').classList.add('overlay-right');
-    document.getElementById('login-form').classList.add('hide-form-container');
+getAllUsers = () => {
+    axios.get(`https://foodappusersfavoritefood.firebaseio.com/users.json`)
+    .then( res => {
+
+        let data = this.formatData(res.data);
+        this.setState({
+            allUsers : data
+        })
+    })
+    
 }
 
-loginClick = () => {
-    document.getElementById('overlay-panel').classList.remove('overlay-right');
-    document.getElementById('login-form').classList.remove('hide-form-container');
+formatData = (responseData) => {
+    const data = [];
+    for (const user in responseData) {
+        data.push({
+            ...responseData[user],
+            fireBaseId: user,
+        })
+    }
+    return data;
 }
 
+//  ==========> SETING INPUTS VALUES AS A STATE <===========
 
 handleChange = ( e ) => {
     this.setState({
@@ -36,18 +67,48 @@ handleChange = ( e ) => {
     })
 }
 
-handleLogin = (e) => {
-    e.preventDefault();
-    this.loginUser( this.state.logEmail, this.state.logPassword )
-    this.setState({
-        logEmail : '',
-        logPassword : ''
+//  ==========> REGISTRATION <===========
+
+registerUser = ( name, email, password, data ) => {
+
+    let sameEmail = data.filter( user => {
+        return email !== user.email
     })
+    
+    if( name.length >= 2 ) {
+        if ( sameEmail.length > 0 ) {
+            if( password.length >= 8 ){
+                axios.post(`https://foodappusersfavoritefood.firebaseio.com/users.json`, { 
+                        name : name,
+                        email : email,
+                        password : password
+                    })
+                    .then(res => {
+                        this.setState({
+                            status : 'successfully'
+                        })
+                        console.log('RESPONSE', res);
+                        console.log('RES DATA', res.data)
+                    })
+                    .then(() => {
+                        this.notificationActiviti( this.state.notifications.regSuccessfully, this.state.status )
+                    })
+                    .then(() => this.getAllUsers())
+            } else {
+                this.notificationActiviti( this.state.notifications.regPassword, this.state.status )
+            }
+        } else {
+            this.notificationActiviti( this.state.notifications.regUserExist, this.state.status )
+        }  
+    } else {
+        this.notificationActiviti( this.state.notifications.regName, this.state.status )
+    }
 }
+
 
 handleRegister = (e) => {
     e.preventDefault();
-    this.registerUser(this.state.regName, this.state.regEmail, this.state.regPassword)
+    this.registerUser(this.state.regName, this.state.regEmail, this.state.regPassword, this.state.allUsers)
     this.setState({
         regName : '',
         regEmail : '',
@@ -55,38 +116,92 @@ handleRegister = (e) => {
     })
 }
 
-loginUser = ( email, password ) => {
-    console.log('email ==>', email);
-    console.log('password ==>', password);
+
+registerClick = () => {
+    document.getElementById('overlay-panel').classList.add('overlay-right');
+    document.getElementById('login-form').classList.add('hide-form-container');
 }
 
-registerUser = ( name, email, password ) => {
+//  ==========> LOGING IN <===========
+
+loginUser = ( email, password, data ) => {
+
+    let findingUser = data.filter( user => {
+        return email === user.email && password === user.password
+    })
+
+    if( findingUser.length !== 0 ){
+        
+        this.setState({
+                activeUser : findingUser,
+                status : 'successfully'  
+        }, () => {
+            this.notificationActiviti( this.state.notifications.logSuccessfully, this.state.status )
+        })
+    } else {
+        this.setState({
+            status : 'unsuccessfully'
+        }, () => {
+            this.notificationActiviti( this.state.notifications.logUnsuccessfully, this.state.status );
+        });
+    }
+}
+
+handleLogin = (e) => {
+    e.preventDefault();
+    this.loginUser( this.state.logEmail, this.state.logPassword, this.state.allUsers )
+    this.setState({
+        logEmail : '',
+        logPassword : ''
+    })
+}
+
+
+loginClick = () => {
+    document.getElementById('overlay-panel').classList.remove('overlay-right');
+    document.getElementById('login-form').classList.remove('hide-form-container');
+}
+
+//  ==========> NOTIFICATIONS <===========
+
+notificationActiviti = ( msg, status ) => {
+    this.setState({
+        notification : msg
+    })
+
+    // status = this.state.status;
+
+    if( status === 'successfully' ){
+        document.getElementById('notification-panel').classList.add('successfullyReg');
+        document.getElementById('notification-panel').classList.remove('unsuccessfullyReg');
+        document.getElementById('notification-panel').classList.remove('warningReg');
+    } else if ( status === 'unsuccessfully' ){
+        document.getElementById('notification-panel').classList.add('unsuccessfullyReg');
+        document.getElementById('notification-panel').classList.remove('successfullyReg');
+        document.getElementById('notification-panel').classList.remove('warningReg');
+    } else {
+        document.getElementById('notification-panel').classList.add('warningReg');
+        document.getElementById('notification-panel').classList.remove('successfullyReg');
+        document.getElementById('notification-panel').classList.remove('unsuccessfullyReg');
+    }
     
-    let condition = name.length >= 2 ? ( password.length >= 8 ? true : console.log('password je manji od 8 karaktera') ) : console.log('ime je prekratko');
+    setTimeout( () => {
+        document.getElementById('notification-panel').classList.add('notification-active')
+        setTimeout( () => {
+            document.getElementById('notification-panel').classList.remove('notification-active')
+            this.setState({
+                notification : null
+            })
+        }, 3500)
 
-    condition ?  axios.post(`https://foodappusersfavoritefood.firebaseio.com/users.json`, { 
-                    name : name,
-                    email : email,
-                    password : password
-                })
-                .then(res => {
-                    console.log('RESPONSE', res);
-                    console.log('RES DATA', res.data)
-                })  
-                : console.log('netacan je')
+        this.setState({
+            status : null
+        })
+    }, 500)
 }
-
-
-
-
-
-
-
-
-
-
 
 render() {
+    const { notification } = this.state;
     return (
         <div className='LogReg'>
             <div className="container" id="container">
@@ -114,6 +229,13 @@ render() {
                         </div>
                         <div onClick={ () => this.loginClick() } className="overlay-panel-item panel-item-right">
                             <p>Login</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="notification-container">
+                    <div className='notification-panel' id='notification-panel'>
+                        <div className="notification-panel-item">
+                            <p>{ notification }</p>
                         </div>
                     </div>
                 </div>
