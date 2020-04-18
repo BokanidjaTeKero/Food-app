@@ -5,12 +5,13 @@ import './Header.css';
 class Header extends Component {
     render() {
         return (
-            <div className='Header'>
+            <div className='Header navbar-fixed'>
                 <nav>
                     <div className="nav-wrapper">
-                    <a to="#" className="brand-logo">Logo</a>
+                    <Link to="/" className="brand-logo">Logo</Link>
                     <ul id="nav-mobile" className="right hide-on-med-and-down">
                         <li><Link to="/">Home</Link></li>
+                        <li><Link to='#'>User</Link></li>
                         <li><Link to="/logreg">Log/Reg</Link></li>
                     </ul>
                     </div>

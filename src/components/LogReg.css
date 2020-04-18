@@ -7,6 +7,10 @@
 
 .LogReg {
 	/* background: #f6f5f7; */
+	/* position: relative;
+	top: 0;
+	left: 0;
+	bottom: 0; */
 	background-color: #383d3380;
 	display: flex;
 	justify-content: center;
@@ -14,7 +18,7 @@
 	flex-direction: column;
 	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
-	margin: 0 auto;
+	/* margin: 0 auto; */
 }
 
 .LogReg h1 {

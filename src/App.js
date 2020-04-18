@@ -36,10 +36,9 @@ class App extends Component {
           <Header />
           <Route exact path='/' component={ Home } />
           <Route path='/logreg' component={ LogReg } />
-          <h1>hello</h1>
+          {/* <h1>hello</h1>
           <h1>{ key }</h1>
-          <h1>{ id }</h1>
-          { console.log('ovo je data ==>', data) }
+          <h1>{ id }</h1> */}
         </div>
       </BrowserRouter>
     )
