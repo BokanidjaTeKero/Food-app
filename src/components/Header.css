@@ -1,6 +1,19 @@
 
 .nav-wrapper {
-    background-color:  #7aca25;
-    background-color: -webkit-linear-gradient(45deg, #7aca25, #98ca25);
-	background-color: linear-gradient(45deg, #7aca25, #25ca56);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color:  white;
+    color: #7aca25;
+    font-weight: bolder;
+    /* background-color: -webkit-linear-gradient(45deg, #7aca25, #98ca25);
+	background-color: linear-gradient(45deg, #7aca25, #25ca56); */
+}
+
+.logReg-link {
+    color: #7aca25!important;
+}
+
+.brand-logo {
+    color: #7aca25!important;
 }
