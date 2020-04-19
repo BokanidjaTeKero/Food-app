@@ -1,11 +1,16 @@
 
 .SearchFilter {
     /* background-color: red; */
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 30%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 0 10px;
+    flex-direction: column;
+    margin: 0 10px;
+    /* padding: 0 10px; */
 }
 
 .searchFilter-container {
@@ -45,4 +50,99 @@ input {
 
 .btn {
     margin: 0 10px;
+}
+
+.forms-container {
+    /* background-color: rgba(202, 141, 9, 0.603); */
+    background-color: #383d3380;
+    position: absolute;
+    top: 60px;
+    left: 0px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 4px; 
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.forms-container p {
+    padding: 0px;
+    margin: 0;
+    width: 100%!important;
+}
+
+.forms-contents {
+    /* background-color: rgba(253, 253, 253, 0.685); */
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px 10px;
+}
+
+.forms-content {
+    /* background-color: rgba(197, 36, 71, 0.685); */
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    flex-direction: row;
+    /* margin: 10px; */
+}
+
+.forms-content span {
+    /* color:  #fd9721; */
+    color: black;
+}
+
+.calories-element {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: rgba(255, 255, 0, 0.589); */
+}
+
+.calories-form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    min-width: 110px;
+}
+
+.calories-form label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    padding: 0 5px;
+    /* background-color: white; */
+}
+
+.calories-input {
+    width: 50px!important;
+    text-align: center;
+}
+
+.form-chbox {
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; */
+    padding: 0 10px;
+}
+
+.filter-form {
+    min-width: 130px;
+}
+
+.filter-form p {
+    padding: 0!important;
+    text-align: start;
 }

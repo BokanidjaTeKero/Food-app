@@ -17,3 +17,9 @@
 .brand-logo {
     color: #7aca25!important;
 }
+
+nav ul {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
