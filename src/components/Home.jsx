@@ -29,7 +29,7 @@ class Home extends Component {
         const { data } = this.props;
         return (
           <div className='body-page-launch'>
-              { console.log('HOME==>', data) }
+              {/* { console.log('HOME==>', data) } */}
             <div className='launchess'>
                 <h1>blabla</h1>
                 { this.state.tr && 

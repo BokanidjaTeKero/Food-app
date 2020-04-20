@@ -1,26 +1,30 @@
 
 .box {
-    position: absolute;
-    width: 100%;
+    /* position: absolute; */
+    width: 80%;
     height: 100%;
     background-color: yellowgreen;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    margin: 0 auto;
 }
 
 .box-with-data {
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    height: 100%;
     background-color: blue;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 
-.rana {
+.food-card {
     width: 300px;
-    height: 100px;
-    margin: 10px;
+    height: 400px;
+    margin: 5px;
     background-color: red;
+    overflow: hidden;
 }
