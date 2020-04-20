@@ -1,4 +1,8 @@
 
+.Header {
+    z-index: 50;
+}
+
 .nav-wrapper {
     display: flex;
     justify-content: space-between;
@@ -6,6 +10,7 @@
     background-color:  white;
     color: #7aca25;
     font-weight: bolder;
+    z-index: 50;
     /* background-color: -webkit-linear-gradient(45deg, #7aca25, #98ca25);
 	background-color: linear-gradient(45deg, #7aca25, #25ca56); */
 }

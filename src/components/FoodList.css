@@ -1,0 +1,26 @@
+
+.box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: yellowgreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-with-data {
+    width: 50%;
+    height: 50%;
+    background-color: blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rana {
+    width: 300px;
+    height: 100px;
+    margin: 10px;
+    background-color: red;
+}
