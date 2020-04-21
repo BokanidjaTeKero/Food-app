@@ -12,13 +12,13 @@ class FoodList extends Component {
             // <div className='rana' key={ card.recipe.label }>
             //     <p>{ card.recipe.label }</p>
             // </div>
+            // Math.ceil(recipe.recipe.calories / recipe.recipe.yield)
             
-            
-        <div className='food-card' key={ card.recipe.label } onClick={ () => { select( card.recipe.label ) } } >
+        <div className='food-card' key={ `${card.recipe.label}${card.recipe.calories}` } onClick={ () => { select( card.recipe.label ) } } >
             <img className='food-card-img' src= { card.recipe.image } alt={ card.recipe.label } />
             <div className='food-card-data'>
                 <p>{ card.recipe.label }</p>
-                {/* <p>{ card.launch_site.site_name}</p>  */}
+                <p>{ Math.ceil(card.recipe.calories / card.recipe.yield) }</p> 
             </div>
         </div>    
         )

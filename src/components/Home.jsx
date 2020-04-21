@@ -34,7 +34,7 @@ class Home extends Component {
                 <h1>blabla</h1>
                 { this.state.tr && 
                     <FoodList 
-                        data={ this.props.data }
+                        data={ data }
                         select={ this.select }
                     />
                 }

@@ -11,8 +11,11 @@ class SearchFilter extends Component {
                 key : 'ab283b83c84c3890058fc08c825f4647',
                 id : '5d43c2a3',
                 mySearch : '',
-                myHealth : 'vegan',
-                myHealth2 : 'alcohol-free',
+                myHealth : '',
+                myDiet : '',
+                myCalories : '',
+                myMinCal : '',
+                myMaxCal : '',
                 data : [],
                 healthChBoxValues : [],
                 dietChBoxValues : [],
@@ -22,7 +25,7 @@ class SearchFilter extends Component {
 
     componentDidMount() {
         
-      }
+    }
 
 //Open and close filter menu    
 
@@ -39,69 +42,128 @@ class SearchFilter extends Component {
 // search for data
 
 getData = () => {
-    axios.get(`https://api.edamam.com/search?q=${ this.state.mySearch }&health=${ this.state.myHealth }&health=${ this.state.myHealth2 }&app_id=${ this.state.id }&app_key=${ this.state.key }`)
-      .then(res => {
-        // const persons = res.data;
-        console.log(res.data)
-        this.setState({ 
-          data : res.data
-         });
-      })
-      .then(() => this.sendData())
+    axios.get(`https://api.edamam.com/search?q=${ this.state.mySearch }${ this.state.myHealth }${ this.state.myDiet }&app_id=${ this.state.id }&app_key=${ this.state.key }&count=10&from=0${ this.state.myCalories }`)
+    .then(res => {
+    // const persons = res.data;
+    console.log(res.data)
+    this.setState({ 
+        data : res.data
+        });
+    })
+    .then(() => this.sendData())
 }
 
+sendData = () => {
+    this.props.setData( this.state.data );
+}
 
-  sendData = () => {
-      this.props.setData( this.state.data );
-  }
+// url config
 
-  handleChange = (word) => {
+deployingUrl = () => {
+    console.log('klik')
+    this.setState({
+        myHealth : this.urlConfig( this.state.healthChBoxValues, 'health' ),
+        myDiet : this.urlConfig( this.state.dietChBoxValues, 'diet' ),
+        myCalories : this.caloriesUrlConfig( this.state.myMinCal, this.state.myMaxCal )
+    })
+    this.filterClose();
+}
+
+urlConfig = ( data, type ) => {
+    
+    const url = data.length ? (
+        data.map( item => {
+            return `&${ type }=${ item }`
+        } )
+    ) :
+    (
+        console.log('nothing is selected as a filter')
+    )
+    
+    let joinedUrl = '';
+    url !== undefined ? (
+        joinedUrl = url.join('')
+    ) 
+    : 
+    (
+        joinedUrl = ''
+    )
+    console.log('KRAJ', joinedUrl)
+    
+    return joinedUrl
+}
+
+caloriesUrlConfig = ( min, max) => {
+    
+    let url = '';
+
+    min.length ? (
+        url = `&calories=${ min }-${ max }`
+    ) 
+    : 
+    (
+        url = ''
+    )
+
+    return url;
+}
+
+// calories filter
+
+handleCaloriesBox = (value) => {
+    let txt = value.target.value;
+    let id = value.target.id;
+
+    id === 'min-cal' ? 
+    (
+        this.setState({
+            myMinCal : txt
+        })
+    ) 
+    : 
+    (
+        this.setState({
+            myMaxCal : txt
+        })
+    )
+}
+
+// filters
+
+handleChange = (word) => {
     let txt = word.target.value;
     this.setState({
         mySearch : txt
     })
-  }
+}
 
-  handleCheckBox = (value) => {
-    let vrednost = value.target.value;
-    let vrsta = value.target.name;
-    console.log('VRSTA', vrsta)
-    let data = this.state.healthChBoxValues;
+handleCheckBox = (value) => {
+    let itemValue = value.target.value;
+    let group = value.target.name;
+    
+    group === 'health' ? 
+    this.addRemoveFilters(this.state.healthChBoxValues, itemValue) :
+    this.addRemoveFilters(this.state.dietChBoxValues, itemValue)
+}
 
-    if(vrednost !== undefined){
-        if(data.includes( vrednost )) {
-            let indexJe = data.indexOf( vrednost );
-            data.splice( indexJe, 1);
+addRemoveFilters = (chBoxData, itemValue) => {
+    let data = chBoxData;
+    
+    if(itemValue !== undefined){
+        if(data.includes( itemValue )) {
+            let position = data.indexOf( itemValue );
+            data.splice( position, 1);
             this.setState({
-                healthChBoxValues : data
+                chBoxData : data
             })
         } else {
-            data[data.length] = vrednost
+            data[data.length] = itemValue
             this.setState({
-                healthChBoxValues : data
+                chBoxData : data
             })
         }
-    }
-  }
-
-//   addRemoveFilters = (dataOrg, dataExm) => {
-//     if(vrednost !== undefined){
-//         if(data.includes( vrednost )) {
-//             let indexJe = data.indexOf( vrednost );
-//             data.splice( indexJe, 1);
-//             this.setState({
-//                 healthChBoxValues : data
-//             })
-//         } else {
-//             data[data.length] = vrednost
-//             this.setState({
-//                 healthChBoxValues : data
-//             })
-//         }
-//     }    
-//   }
-
-
+    }    
+}
 
 
 render() {
@@ -116,20 +178,19 @@ render() {
                     <i className="material-icons">search</i>
                 </button>
             </div>
-            { console.log('HEALTH CHBOX', this.state.healthChBoxValues) }
             <div id='forms-container' className='forms-container'>
                 <div className='forms-contents'>
                     <div className='forms-content'>
                         <div className='calories-element'>
                             <p>Calories</p>
                             <form className='calories-form' action='#'>
-                                <label>
+                                <label onChange={(e) => this.handleCaloriesBox(e)}>
                                     <span>From</span>
-                                    <input className="calories-input" type="number" />
+                                    <input className="calories-input" type="number" id='min-cal' />
                                 </label>
-                                <label>
+                                <label onChange={(e) => this.handleCaloriesBox(e)}>
                                     <span>To</span>
-                                    <input className="calories-input" type="number" />
+                                    <input className="calories-input" type="number" id='max-cal' />
                                 </label>
                             </form>
                         </div>
@@ -166,26 +227,26 @@ render() {
                             <p>Diet</p>
                             <form className='filter-form diet-form' action='#'>
                                 <p>
-                                <label>
-                                    <input id="balanced" type="checkbox" />
+                                <label onClick={(e) => this.handleCheckBox(e)}>
+                                    <input id="balanced" type="checkbox" value='balanced' name='diet'/>
                                     <span>Balanced</span>
                                 </label>
                                 </p>
                                 <p>
-                                <label>
-                                    <input id="high-protein" type="checkbox" />
+                                <label onClick={(e) => this.handleCheckBox(e)}>
+                                    <input id="high-protein" type="checkbox" value='high-protein' name='diet'/>
                                     <span>High-Protein</span>
                                 </label>
                                 </p>
                                 <p>
-                                <label>
-                                    <input id="low-carb" type="checkbox" />
+                                <label onClick={(e) => this.handleCheckBox(e)}>
+                                    <input id="low-carb" type="checkbox" value='low-carb' name='diet'/>
                                     <span>Low-Carb</span>
                                 </label>
                                 </p>
                                 <p>
-                                <label>
-                                    <input id="low-fat" type="checkbox" />
+                                <label onClick={(e) => this.handleCheckBox(e)}>
+                                    <input id="low-fat" type="checkbox" value='low-fat' name='diet' />
                                     <span>Low-Fat</span>
                                 </label>
                                 </p>
@@ -194,10 +255,7 @@ render() {
                     </div>
                 </div>
                 <div className='forms-controls'>
-                    <button className="btn-floating btn-small waves-effect waves-light light-green btn">
-                        <i className="material-icons">refresh</i>
-                    </button>
-                    <button className="btn-floating btn-small waves-effect waves-light light-green btn">
+                    <button onClick={ () => this.deployingUrl() } className="btn-floating btn-small waves-effect waves-light light-green btn">
                         <i className="material-icons">done</i>
                     </button>
                     <button onClick={ () => this.filterClose() } className="btn-floating btn-small waves-effect waves-light light-green btn">
