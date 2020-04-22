@@ -6,10 +6,10 @@ import axios from 'axios';
 class SearchFilter extends Component {
 
     state = {
-                // key : '0a5a92325d15d099bdb12116ab6dbfb0',
-                // id : '14f36e30',
-                key : 'ab283b83c84c3890058fc08c825f4647',
-                id : '5d43c2a3',
+                key : '0a5a92325d15d099bdb12116ab6dbfb0',
+                id : '14f36e30',
+                // key : 'ab283b83c84c3890058fc08c825f4647',
+                // id : '5d43c2a3',
                 mySearch : '',
                 myHealth : '',
                 myDiet : '',
@@ -30,19 +30,19 @@ class SearchFilter extends Component {
 //Open and close filter menu    
 
     filterOpen = () => {
-        document.getElementById('forms-container').classList.remove('scale-out-ver-top');
-        document.getElementById('forms-container').classList.add('scale-in-ver-top');
+        document.getElementById('forms-container').classList.remove('swing-out-top-bck');
+        document.getElementById('forms-container').classList.add('swing-in-top-fwd');
     }
 
     filterClose = () => {
-        document.getElementById('forms-container').classList.add('scale-out-ver-top');
-        document.getElementById('forms-container').classList.remove('scale-in-ver-top');
+        document.getElementById('forms-container').classList.add('swing-out-top-bck');
+        document.getElementById('forms-container').classList.remove('swing-in-top-fwd');
     }
 
 // search for data
 
 getData = () => {
-    axios.get(`https://api.edamam.com/search?q=${ this.state.mySearch }${ this.state.myHealth }${ this.state.myDiet }&app_id=${ this.state.id }&app_key=${ this.state.key }&count=10&from=0${ this.state.myCalories }`)
+    axios.get(`https://api.edamam.com/search?q=${ this.state.mySearch }${ this.state.myHealth }${ this.state.myDiet }&app_id=${ this.state.id }&app_key=${ this.state.key }${ this.state.myCalories }`)
     .then(res => {
     // const persons = res.data;
     console.log(res.data)
@@ -60,7 +60,6 @@ sendData = () => {
 // url config
 
 deployingUrl = () => {
-    console.log('klik')
     this.setState({
         myHealth : this.urlConfig( this.state.healthChBoxValues, 'health' ),
         myDiet : this.urlConfig( this.state.dietChBoxValues, 'diet' ),
@@ -88,7 +87,6 @@ urlConfig = ( data, type ) => {
     (
         joinedUrl = ''
     )
-    console.log('KRAJ', joinedUrl)
     
     return joinedUrl
 }

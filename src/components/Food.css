@@ -1,0 +1,17 @@
+
+.food-modal-container {
+    position: absolute;
+    width: 90%;
+    height: 70%;
+    background-color: chocolate;
+    top: 150px;
+    left: -100%;
+    /* left: 10px; */
+    z-index: 1000;
+    transition: 1s ease;
+}
+
+.food-modal-show { 
+    left: 10px;
+}
+

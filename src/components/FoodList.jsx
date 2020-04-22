@@ -1,45 +1,61 @@
 import React, {Component} from 'react';
-import './FoodList.css';
+import './FoodListBeta.css';
 
 class FoodList extends Component {
+
+    // state = {
+    //     activePage : 15
+    // }
+
     render() {
         const { data, select } = this.props;
 
     const cardsList = data !== undefined ? (
         
-        data.hits.map( card => {
-        return (
-            // <div className='rana' key={ card.recipe.label }>
-            //     <p>{ card.recipe.label }</p>
-            // </div>
-            // Math.ceil(recipe.recipe.calories / recipe.recipe.yield)
-            
-        <div className='food-card' key={ `${card.recipe.label}${card.recipe.calories}` } onClick={ () => { select( card.recipe.label ) } } >
-            <img className='food-card-img' src= { card.recipe.image } alt={ card.recipe.label } />
-            <div className='food-card-data'>
-                <p>{ card.recipe.label }</p>
-                <p>{ Math.ceil(card.recipe.calories / card.recipe.yield) }</p> 
-            </div>
-        </div>    
-        )
+        data.hits.map( (card, index) => {
+            if( index % 2 === 0 ) {
+                return (
+                    <div className="column" key={ `${card.recipe.label}${card.recipe.calories}${ card.index }` } onClick={ () => { select( card ) } } >
+                        <div className='prow prow1'>
+                        <div>
+                            <div className="thumb_nb" style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
+                            <div className='thumb_color' style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
+                            <div className="description">
+                                <p>{ card.recipe.label }</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="column" key={ `${card.recipe.label}${card.recipe.calories}` } onClick={ () => { select( card ) } } >
+                        <div className='prow prow2'>
+                        <div>
+                            <div className="thumb_nb" style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
+                            <div className='thumb_color' style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
+                            <div className="description">
+                                <p>{ card.recipe.label }</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                )
+            }
         }
+        )) : 
+        (
+            <div className='center movie-list-no-movie'>No Food</div>
         )
-    ) 
-    :
-    (
-        <div className='center movie-list-no-movie'>No Food</div>
-    )
-
 
     return (
-        <div className='box' >
-            {/* <input type='text' id='search' placeholder='Search ...' onChange={ search } /> */}
-            <div className='box-with-data'>
+    
+        <div className="element">
+            <div className="portfolio-tab">
                 { cardsList }
             </div>
         </div>
     );
-}
-}
+    }}
 
 export default FoodList;
