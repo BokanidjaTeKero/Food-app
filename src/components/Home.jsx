@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import FoodList from './FoodList';
 import Food from './Food';
+// import LightSpeed from 'react-reveal/LightSpeed';
 
 class Home extends Component {
 
@@ -11,7 +12,8 @@ class Home extends Component {
         this.state = {
             tr : false,
             showModal : false,
-            selectedData : {}
+            selectedData : {},
+            show : false
         }
     }
 
@@ -24,8 +26,14 @@ class Home extends Component {
           })
         } else if ( prevState.selectedData !== this.state.selectedData ){
           this.setState({
-            showModal : true
+            showModal : true,
+            
           })
+          setTimeout(() => {
+            this.setState({
+              show : true
+            })
+          }, 10);
         }
       }
 
@@ -41,9 +49,16 @@ class Home extends Component {
     }
 
     changeModal = () => {
+      // document.getElementById('food-modal').classList.add('test1')
       this.setState({
-        showModal : false
+        // showModal : false,
+        show : false
       })
+      setTimeout(() => {
+        this.setState({
+          showModal : false,
+        })
+      }, 800);
     }
 
     // showFoodModal = () => {
@@ -56,7 +71,7 @@ class Home extends Component {
 
     render() {
         const { data } = this.props;
-        const { selectedData, showModal } = this.state;
+        const { selectedData, showModal, show } = this.state;
         return (
           <div className='body-page-launch'>
             <div className='launchess'>
@@ -70,9 +85,12 @@ class Home extends Component {
                     />
                 }
                 { showModal &&
+                // <LightSpeed left>
                   <Food 
                     changeModal={ (e) => this.changeModal(e) }
-                    selectedData={ selectedData } />
+                    selectedData={ selectedData }
+                    show={ show } />
+                // </LightSpeed>
                 }
             </div> 
           </div> 
