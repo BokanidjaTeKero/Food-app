@@ -3,10 +3,6 @@ import './FoodListBeta.css';
 
 class FoodList extends Component {
 
-    // state = {
-    //     activePage : 15
-    // }
-
     render() {
         const { data, select } = this.props;
 
@@ -15,7 +11,7 @@ class FoodList extends Component {
         data.hits.map( (card, index) => {
             if( index % 2 === 0 ) {
                 return (
-                    <div className="column" key={ `${card.recipe.label}${card.recipe.calories}${ card.index }` } onClick={ () => { select( card ) } } >
+                    <div className="column" key={ Math.random() } onClick={ () => { select( card ) } } >
                         <div className='prow prow1'>
                         <div>
                             <div className="thumb_nb" style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
@@ -29,7 +25,7 @@ class FoodList extends Component {
                 )
             } else {
                 return (
-                    <div className="column" key={ `${card.recipe.label}${card.recipe.calories}` } onClick={ () => { select( card ) } } >
+                    <div className="column" key={ Math.random() } onClick={ () => { select( card ) } } >
                         <div className='prow prow2'>
                         <div>
                             <div className="thumb_nb" style={{backgroundImage: `url(${ card.recipe.image })`}}></div>

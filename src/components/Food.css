@@ -1,68 +1,97 @@
 
-.food-modal-container {
+.prvi {
     position: absolute;
     width: 90%;
-    height: 70%;
-    background-color: chocolate;
+    height: 80%;
+    background-color: rgba(255, 255, 255, 0.849);
     top: 150px;
     left: 10px;
-    z-index: 1000;
+    overflow: hidden;
+    z-index: 10;
+    border: 10px solid #ffb508;
+}
+
+.food-modal-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(180, 180, 180, 0.137);
+    z-index: 100;
+    overflow: hidden;
+    padding: 10px;
+    
+}
+
+.test {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 5;
 }
 
 .food-modal-content-data {
     width: 100%;
-    height: 100%;
+    height: 95%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: green;
     padding: 5px;
     overflow: hidden;
 }
 
 .food-modal-content {
     height: 100%;
-    background-color: greenyellow;
 }
 
 /* poster */
 
 .content-img {
-    width: 25%;
-    background-color: rgb(158, 105, 255);
+    width: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 5px;
 }
 
 .content-img>img {
     width: 100%;
     border-radius: 50%;
+    border: 10px solid #ffb508;
 }
 
 /* ing */
 
 .content-ing {
     width: 30%;
-    background-color: rgb(150, 8, 79);
+    padding: 5px 20px;
+    
 }
 
 .ing-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
 }
 
 .ing-title>h3 {
     font-size: 1rem;
     font-weight: bolder;
+    color: #ffb508;
+    background-color: rgba(43, 37, 37, 0.376);
+    padding: 10px;
+}
+
+.ing-data {
+    background-color: rgba(43, 37, 37, 0.376);
+    padding: 10px;
 }
 
 /* nut */
 
 .content-nut {
-    width: 45%;
-    background-color: rgb(106, 107, 70);
+    width: 40%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -72,27 +101,32 @@
     text-align: center;
     font-size: 3rem;
     font-weight: bolder;
+    color: #ffb508;
+    background-color: rgba(43, 37, 37, 0.376);
+    padding: 10px;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .nut-data {
-    background-color: orange;
     display: flex;
     justify-content: space-around;
     align-items: center;
-}
-
-.nut-data-container {
-    background-color: orchid;
+    background-color: rgba(43, 37, 37, 0.376);
+    padding: 10px;
 }
 
 .nut-data-container>h3 {
     text-align: center;
     font-size: 1rem;
     font-weight: bold;
+    color: #ffb508;
+    padding: 10px;
+    background-color: rgba(43, 40, 37, 0.376);
+    width: fit-content;
 }
 
 .nut-data-list {
-    background-color: palegreen;
     width: 40%;
 }
 

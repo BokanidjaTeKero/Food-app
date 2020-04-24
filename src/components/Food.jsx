@@ -8,9 +8,10 @@ class Food extends Component {
         super();
         this.state = {
             nutData : [],
-            ingData : []
-        }
-        
+            ingData : [],
+            nutDataEven : [],
+            nutDataOdd : []
+        } 
     }
 
 componentDidMount() {
@@ -22,24 +23,44 @@ kljucevi = () => {
     console.log(keys) 
 }
 
+novaFunk = ( nutValues,ingValues ) => {
+    let nutEvenValues = [];
+    let nutOddValues = []
+    nutValues.map(( item, index ) => {
+        if( index % 2 === 0 ){
+           return nutEvenValues[nutEvenValues.length] = item;
+        } else {
+           return nutOddValues[nutOddValues.length] = item;
+        }
+    })
+        this.setState({
+            nutData : nutValues,
+            ingData : ingValues,
+            nutDataEven : nutEvenValues,
+            nutDataOdd : nutOddValues
+        }) 
+}
+
 vrednosti = () => {
     const nutValues  = Object.values(this.props.selectedData.recipe.totalNutrients);
-    const ingValues  = Object.values(this.props.selectedData.recipe.ingredientLines)
-    this.setState({
-        nutData : nutValues,
-        ingData : ingValues
-    }) 
+    const ingValues  = Object.values(this.props.selectedData.recipe.ingredientLines);
+
+    this.novaFunk( nutValues,ingValues )
 }
 
 
 render() {
     const { changeModal, selectedData, show } = this.props;
-    const { nutData, ingData } = this.state;
+    const { nutDataOdd, nutDataEven, ingData } = this.state;
 
     const foodData = this.props.selectedData !== undefined ? (
 
     <Slide left when={ show }>
+        <div className='prvi'>
+        <img src={require('../assets/modalBg1.jpeg') } alt='bgimg' className='test'/>
         <div id='food-modal' className='food-modal-container'>
+
+            
             <button onClick={ () =>  changeModal() } className="btn-floating btn-small waves-effect waves-light light-green btn right">
                 <i className="material-icons">close</i>
             </button>
@@ -57,15 +78,13 @@ render() {
                             <ul className='ing-data-list'>
                                 { 
                                     ingData.map( ( item ) => {
-                                        // if( index % 2 === 0 ){
-                                            return (
-                                                <li key={ item } className='nut-data-item' >
-                                                    <span className='nut-item-label'>{ item }</span>
-                                                    {/* <span className='nut-item-quantity-and-unit'>{ item.quantity.toFixed(0) }{ item.unit }</span> */}
-                                                </li>
-                                            )
-                                        // }
-                                    })
+                                        return (
+                                            <li key={ Math.random() } className='nut-data-item' >
+                                                <span className='nut-item-label'>{ item }</span>
+                                            </li>
+                                        )
+                                    }
+                                    )
                                 }
                             </ul>
                         </div>
@@ -80,29 +99,25 @@ render() {
                         <div className='nut-data'>
                             <ul className='nut-data-list nut-left'>
                                 { 
-                                    nutData.map( ( item, index ) => {
-                                        if( index % 2 === 0 ){
-                                            return (
-                                                <li key={ index } className='nut-data-item' >
-                                                    <span className='nut-item-label'>{ item.label }</span>
-                                                    <span className='nut-item-quantity-and-unit'>{ item.quantity.toFixed(0) }{ item.unit }</span>
-                                                </li>
-                                            )
-                                        }
+                                    nutDataEven.map(( item ) => {
+                                        return (
+                                            <li key={ Math.random() } className='nut-data-item' >
+                                                <span className='nut-item-label'>{ item.label }</span>
+                                                <span className='nut-item-quantity-and-unit'>{ item.quantity.toFixed(0) }{ item.unit }</span>
+                                            </li>
+                                        )
                                     })
                                 }
                             </ul>
                             <ul className='nut-data-list nut-right'>
                             {
-                                nutData.map( ( item, index ) => {
-                                    if( index % 2 !== 0 ){
-                                        return (
-                                            <li key={ index } className='nut-data-item' >
-                                                <span className='nut-item-label'>{ item.label }</span>
-                                                <span className='nut-item-quantity-and-unit'>{ item.quantity.toFixed(0) }{ item.unit }</span>
-                                            </li>
-                                        )
-                                    }
+                                nutDataOdd.map( ( item ) => {
+                                    return (
+                                        <li key={ Math.random() } className='nut-data-item' >
+                                            <span className='nut-item-label'>{ item.label }</span>
+                                            <span className='nut-item-quantity-and-unit'>{ item.quantity.toFixed(0) }{ item.unit }</span>
+                                        </li>
+                                    )
                                 })
                             }
                             </ul>
@@ -111,6 +126,7 @@ render() {
                 </div>
             </div>
         </div> 
+        </div>
     </Slide>
 
 ) 
@@ -124,10 +140,9 @@ return(
     <div>
         { foodData }
     </div>
-)
+)}
 
 
-
-}}
+}
 
 export default Food;

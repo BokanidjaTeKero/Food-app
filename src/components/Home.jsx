@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import FoodList from './FoodList';
 import Food from './Food';
-// import LightSpeed from 'react-reveal/LightSpeed';
 
 class Home extends Component {
 
@@ -16,8 +15,6 @@ class Home extends Component {
             show : false
         }
     }
-
- 
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.data !== this.props.data ) {
@@ -38,20 +35,13 @@ class Home extends Component {
       }
 
     select = (e) => {
-        console.log('klik selekt ==>', e)
         this.setState({
-          // showModal : true,
           selectedData : e,
         })
-        // this.showFoodModal()
-        // document.getElementById('food-modal').classList.add('food-modal-show')
-        
     }
 
     changeModal = () => {
-      // document.getElementById('food-modal').classList.add('test1')
       this.setState({
-        // showModal : false,
         show : false
       })
       setTimeout(() => {
@@ -61,37 +51,25 @@ class Home extends Component {
       }, 800);
     }
 
-    // showFoodModal = () => {
-    //   // this.setState({
-    //   //   // selectedData : e,
-    //   //   showModal : true,
-    //   // })
-    //   document.getElementById('food-modal').classList.add('food-modal-show')
-    // }
-
     render() {
         const { data } = this.props;
         const { selectedData, showModal, show } = this.state;
         return (
           <div className='body-page-launch'>
             <div className='launchess'>
-                {/* <h1>blabla</h1> */}
-                {console.log('DATA SELECTED JE', this.state.selectedData)}
-                {console.log('item je', this.state.showModal)}
-                { this.state.tr && 
-                    <FoodList 
-                        data={ data }
-                        select={ this.select }
-                    />
-                }
-                { showModal &&
-                // <LightSpeed left>
-                  <Food 
-                    changeModal={ (e) => this.changeModal(e) }
-                    selectedData={ selectedData }
-                    show={ show } />
-                // </LightSpeed>
-                }
+              { this.state.tr && 
+                  <FoodList 
+                      data={ data }
+                      select={ this.select }
+                  />
+              }
+              { showModal &&
+                <Food 
+                  changeModal={ (e) => this.changeModal(e) }
+                  selectedData={ selectedData }
+                  show={ show } 
+                />
+              }
             </div> 
           </div> 
         )
