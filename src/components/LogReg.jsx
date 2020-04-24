@@ -7,6 +7,8 @@ class LogReg extends Component {
 
     state = {
 
+        userData : [],
+
         allUsers : [],
         activeUser : [],
         
@@ -34,6 +36,12 @@ class LogReg extends Component {
 componentDidMount() {
     document.getElementById('container').classList.add('slide-in-fwd-tr');
     this.getAllUsers();
+}
+
+componentDidUpdate(prevProps, prevState) {
+    if(prevState.userData !== this.state.userData){
+        this.sendUser(this.state.userData)
+    }
 }
 
 getAllUsers = () => {
@@ -124,6 +132,14 @@ registerClick = () => {
 
 //  ==========> LOGING IN <===========
 
+sendUser = ( user ) => {
+    axios.post(`https://foodappusersfavoritefood.firebaseio.com/korisnik.json`, { user })
+    .then(res => {
+        console.log(res);
+        console.log(res.data);
+    })
+}
+
 loginUser = ( email, password, data ) => {
 
     let findingUser = data.filter( user => {
@@ -137,6 +153,10 @@ loginUser = ( email, password, data ) => {
                 status : 'successfully'  
         }, () => {
             this.notificationActiviti( this.state.notifications.logSuccessfully, this.state.status )
+            console.log('Ulogovan user ==>', findingUser)
+            this.setState({
+                userData : findingUser
+            })
         })
     } else {
         this.setState({
@@ -201,7 +221,7 @@ notificationActiviti = ( msg, status ) => {
 }
 
 render() {
-    const { notification } = this.state;
+    const { notification, userData } = this.state;
     return (
         <div className='LogReg'>
             <div className="container" id="container">
@@ -213,6 +233,7 @@ render() {
                         <button>Login</button>
                     </form>
                 </div>
+                { console.log('USER DATA IZ LOGREG COM ==>', userData) }
                 <div className="form-container register-container" id='register-form'>
                     <form onSubmit={ (e) => this.handleRegister(e) } action="#">
                         <h1>Register</h1>

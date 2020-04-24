@@ -16,7 +16,12 @@ const Header = ({ setData }) => {
                 />
                 <Link to="/" className="brand-logo center">Logo</Link>
                 <ul className="right">
-                    <li><Link className='logReg-link' to="/logreg">Log/Reg</Link></li>
+                    <li><Link 
+                        className='logReg-link' 
+                        to="/logreg"
+                    >Log/Reg</Link></li>
+                    <li><Link className='logReg-link' to="/user">User</Link></li>
+                    <li><Link className='logReg-link' to="/logoff">Logoff</Link></li>
                 </ul>
                 </div>
             </nav>
