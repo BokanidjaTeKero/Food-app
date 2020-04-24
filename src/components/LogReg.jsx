@@ -10,7 +10,12 @@ class LogReg extends Component {
         userData : [],
 
         allUsers : [],
-        activeUser : [],
+        activeUser : {},
+
+        acName : '',
+        acPassword : '',
+        acEmail : '',
+        acFirebaseId : '',
         
         logEmail : '',
         logPassword : '',
@@ -39,10 +44,16 @@ componentDidMount() {
 }
 
 componentDidUpdate(prevProps, prevState) {
-    if(prevState.userData !== this.state.userData){
-        this.sendUser(this.state.userData)
+    if(prevState.acName !== this.state.acName){
+        this.sendUser(
+                        this.state.acName,
+                        this.state.acEmail,
+                        this.state.acPassword,
+                        this.state.acFirebaseId
+                    )
     }
 }
+
 
 getAllUsers = () => {
     axios.get(`https://foodappusersfavoritefood.firebaseio.com/users.json`)
@@ -132,8 +143,13 @@ registerClick = () => {
 
 //  ==========> LOGING IN <===========
 
-sendUser = ( user ) => {
-    axios.post(`https://foodappusersfavoritefood.firebaseio.com/korisnik.json`, { user })
+sendUser = ( name, email, password, firebaseID ) => {
+    axios.post(`https://foodappusersfavoritefood.firebaseio.com/korisnik.json`, { 
+        name : name,
+        email : email,
+        password : password,
+        firebaseID : firebaseID
+    })
     .then(res => {
         console.log(res);
         console.log(res.data);
@@ -150,13 +166,18 @@ loginUser = ( email, password, data ) => {
         
         this.setState({
                 activeUser : findingUser,
-                status : 'successfully'  
+                status : 'successfully',
+                acName : findingUser[0].name,
+                acPassword : findingUser[0].password,
+                acEmail : findingUser[0].email,
+                acFirebaseId : findingUser[0].fireBaseId,  
         }, () => {
             this.notificationActiviti( this.state.notifications.logSuccessfully, this.state.status )
             console.log('Ulogovan user ==>', findingUser)
             this.setState({
-                userData : findingUser
+                userData : findingUser[0]
             })
+            window.location.href='/'
         })
     } else {
         this.setState({
@@ -222,6 +243,7 @@ notificationActiviti = ( msg, status ) => {
 
 render() {
     const { notification, userData } = this.state;
+    
     return (
         <div className='LogReg'>
             <div className="container" id="container">
@@ -233,7 +255,9 @@ render() {
                         <button>Login</button>
                     </form>
                 </div>
-                { console.log('USER DATA IZ LOGREG COM ==>', userData) }
+                { console.log('ACTIVE USER !!!!!!!!!!!!!!!!!!!!!!!!!! ==>', this.state.activeUser) }
+                {console.log('IME JE ==>', this.state.acName)}
+                {console.log('KORISNIK JE ==>', userData)}
                 <div className="form-container register-container" id='register-form'>
                     <form onSubmit={ (e) => this.handleRegister(e) } action="#">
                         <h1>Register</h1>

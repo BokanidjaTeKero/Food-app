@@ -15,7 +15,7 @@ class App extends Component {
         // key : '0a5a92325d15d099bdb12116ab6dbfb0',
         // id : '14f36e30',
         data : [],
-        userData : []
+        userData : [],
     }
 }
 
@@ -30,12 +30,6 @@ class App extends Component {
     }
   }
 
-//   componentDidUpdate(prevProps, prevState) {
-//     if(prevState.userData !== this.state.userData){
-//         // this.sendUser(this.state.userData)
-//     }
-// }
-
   setData = ( newData ) => {
     this.setState({
         data : newData
@@ -47,24 +41,13 @@ class App extends Component {
     .then( res => { 
 
         let data = this.formatData(res.data);
-        console.log('DATA SA SERVERA O USERU ==>', data[0])
+        console.log('DATA SA SERVERA O USERU ==>', data)
         this.setState({
-          userData : data[0]
+          userData : this.formatData(data)[0],
+          userActive : true
         })
     })
   }
-
-//   getAllUsers = () => {
-//     axios.get(`https://foodappusersfavoritefood.firebaseio.com/users.json`)
-//     .then( res => {
-
-//         let data = this.formatData(res.data);
-//         this.setState({
-//             allUsers : data
-//         })
-//     })
-    
-// }
 
 formatData = (responseData) => {
     const data = [];
@@ -78,20 +61,15 @@ formatData = (responseData) => {
 }
 
 
-
-
-
-
-
-
   render() {
     const { data, userData } = this.state;
     return (
       <BrowserRouter>
         <div className='App'>
-          {console.log('USER DATA U APP ==>', userData)}
+         
           <Header
               setData = { ( newData ) => this.setData( newData ) }
+              userData = { userData }
           />
           <Route 
             exact path='/' 

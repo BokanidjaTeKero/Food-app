@@ -4,7 +4,7 @@ import './Header.css';
 
 import SearchFilter from './SearchFilter';
 
-const Header = ({ setData }) => {
+const Header = ({ setData, userData }) => {
     
     return (
         <div className='Header navbar-fixed'>
@@ -20,7 +20,10 @@ const Header = ({ setData }) => {
                         className='logReg-link' 
                         to="/logreg"
                     >Log/Reg</Link></li>
-                    <li><Link className='logReg-link' to="/user">User</Link></li>
+                    { userData  && 
+                        <li><Link className='logReg-link' to="/user">{ userData.name }</Link></li>
+                    }
+                    
                     <li><Link className='logReg-link' to="/logoff">Logoff</Link></li>
                 </ul>
                 </div>
