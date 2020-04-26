@@ -50,7 +50,7 @@ vrednosti = () => {
 
 
 render() {
-    const { changeModal, selectedData, show } = this.props;
+    const { changeModal, selectedData, show, addToFavorite } = this.props;
     const { nutDataOdd, nutDataEven, ingData } = this.state;
 
     const foodData = this.props.selectedData !== undefined ? (
@@ -60,10 +60,19 @@ render() {
         <img src={require('../assets/modalBg1.jpeg') } alt='bgimg' className='test'/>
         <div id='food-modal' className='food-modal-container'>
 
-            
+        
+
             <button onClick={ () =>  changeModal() } className="btn-floating btn-small waves-effect waves-light light-green btn right">
                 <i className="material-icons">close</i>
             </button>
+
+            <button onClick={ () =>  changeModal() } className="btn-floating btn-small waves-effect waves-light light-green btn right">
+                <i className="material-icons">delete</i>
+            </button>
+            <button onClick={ () =>  addToFavorite( selectedData.recipe ) } className="btn-floating btn-small waves-effect waves-light light-green btn right">
+                <i className="material-icons">add</i>
+            </button>
+
             <div className='food-modal-content-data'>
                 <div className='food-modal-content content-img'>
                     <img src={ selectedData.recipe.image } alt={ selectedData.recipe.image }/>

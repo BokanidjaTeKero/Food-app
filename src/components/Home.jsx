@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { db } from '../config/Fire';
 
 import FoodList from './FoodList';
 import Food from './Food';
@@ -51,11 +52,24 @@ class Home extends Component {
       }, 800);
     }
 
+    addToFavorite = ( food ) => {
+      console.log('OVA je DODATA U FAV ==>', food)
+
+      db.collection(`${ this.props.userID }`).add({
+        food
+      }).then(() => {
+        console.log('DODATO JE')
+      }).catch(( err ) => {
+        console.log('greska', err)
+      })
+    }
+
     render() {
-        const { data } = this.props;
+        const { data, userID } = this.props;
         const { selectedData, showModal, show } = this.state;
         return (
           <div className='body-page-launch'>
+            {/* { console.log('selektovana rana ==>', selectedData) } */}
             <div className='launchess'>
               { this.state.tr && 
                   <FoodList 
@@ -67,8 +81,9 @@ class Home extends Component {
                 <Food 
                   changeModal={ (e) => this.changeModal(e) }
                   selectedData={ selectedData }
-                  show={ show } 
-                />
+                  show={ show }
+                  addToFavorite={ (e) => this.addToFavorite(e)}
+                /> 
               }
             </div> 
           </div> 

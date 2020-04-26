@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom';
-import axios from 'axios';
+import { auth } from './config/Fire';
+// import axios from 'axios';
 
 import Header from './components/Header';
 import Home from './components/Home';
@@ -15,19 +16,18 @@ class App extends Component {
         // key : '0a5a92325d15d099bdb12116ab6dbfb0',
         // id : '14f36e30',
         data : [],
-        userData : [],
+        userID : '',
+        // userData : [],
+        // idUser : '',
+        // favoriteFood : [],
+        // favoriteFoodForSend : []
     }
 }
 
   componentDidMount() {
+    this.trackingAuthStatus();
     this.setData();
-    this.setUser();
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if(nextState.userData !== this.state.userData){
-      return true
-    }
+    // this.setUser();
   }
 
   setData = ( newData ) => {
@@ -36,47 +36,86 @@ class App extends Component {
     })
   }
 
-  setUser = () => {
-    axios.get(`https://foodappusersfavoritefood.firebaseio.com/korisnik.json`)
-    .then( res => { 
-
-        let data = this.formatData(res.data);
-        console.log('DATA SA SERVERA O USERU ==>', data)
+  trackingAuthStatus(){
+    auth.onAuthStateChanged( user => {
+      if( user ){
+        console.log('user logged in :', user.uid);
         this.setState({
-          userData : this.formatData(data)[0],
-          userActive : true
+          userID : user.uid
         })
+      } else {
+        console.log('user logged out');
+      }
     })
   }
 
-formatData = (responseData) => {
-    const data = [];
-    for (const user in responseData) {
-        data.push({
-            ...responseData[user],
-            fireBaseUSERId: user,
-        })
-    }
-    return data;
-}
+  handleLogout  = (e) => {
+    e.preventDefault();
+
+    auth.signOut().then(() => {
+      window.location.href='/';
+    })
+  }
+
+  // componentWillUpdate(nextProps, nextState) {
+  //   if(nextState.userData !== this.state.userData){
+  //     return true
+  //   }
+  // }
+
+  
+
+//   setUser = () => {
+//     axios.get(`https://foodappusersfavoritefood.firebaseio.com/korisnik.json`)
+//     .then( res => { 
+
+//         let data = this.formatData(res.data);
+//         console.log('DATA SA SERVERA O USERU ==>', data)
+//         this.setState({
+//           userData : this.formatData(data)[0],
+//           userActive : true,
+//           idUser : data[0].fireBaseUSERId,
+//           favoriteFood : data[0].favFood
+//         })
+//     })
+//   }
+
+// formatData = (responseData) => {
+//     const data = [];
+//     for (const user in responseData) {
+//         data.push({
+//             ...responseData[user],
+//             fireBaseUSERId: user,
+//         })
+//     }
+//     return data;
+// }
+
+
 
 
   render() {
-    const { data, userData } = this.state;
+    const { data, userID } = this.state;
     return (
       <BrowserRouter>
         <div className='App'>
-         
+         { console.log("ID JE ==>", this.state.userID) }
           <Header
               setData = { ( newData ) => this.setData( newData ) }
-              userData = { userData }
+              handleLogout = { ( e ) => this.handleLogout( e )}
+              // userData = { userData }
+          />
+          <Route 
+            path='/home' 
+            render={(props) => < Home 
+                                  {...props} 
+                                  data={ data }
+                                  userID={ userID }
+                                  // addToFavorite = { (e) => this.addToFavorite(e)}
+                  />}
           />
           <Route 
             exact path='/' 
-            render={(props) => < Home {...props} data={ data } />}
-          />
-          <Route 
-            path='/logreg' 
             component={ LogReg } 
           />
           <Route

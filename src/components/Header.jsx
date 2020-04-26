@@ -4,7 +4,7 @@ import './Header.css';
 
 import SearchFilter from './SearchFilter';
 
-const Header = ({ setData, userData }) => {
+const Header = ({ setData, handleLogout }) => {
     
     return (
         <div className='Header navbar-fixed'>
@@ -14,17 +14,11 @@ const Header = ({ setData, userData }) => {
                     className="left"
                     setData = { setData }
                 />
-                <Link to="/" className="brand-logo center">Logo</Link>
+                <Link to="/home" className="brand-logo center">Logo</Link>
                 <ul className="right">
-                    <li><Link 
-                        className='logReg-link' 
-                        to="/logreg"
-                    >Log/Reg</Link></li>
-                    { userData  && 
-                        <li><Link className='logReg-link' to="/user">{ userData.name }</Link></li>
-                    }
-                    
-                    <li><Link className='logReg-link' to="/logoff">Logoff</Link></li>
+                    <li><Link className='logReg-link' to="/user">Account</Link></li>
+                    <li onClick={( e ) => handleLogout( e )} className='logReg-link'>Logout</li>
+                    <li><Link className='logReg-link' to="/">Log/Reg</Link></li>
                 </ul>
                 </div>
             </nav>
