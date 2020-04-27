@@ -66,7 +66,7 @@ render() {
 
         
 
-            <button onClick={ (e) => nesto(e) } className="btn-floating btn-small waves-effect waves-light light-green btn right">
+            <button onClick={ () => changeModal() } className="btn-floating btn-small waves-effect waves-light light-green btn right">
                 <i className="material-icons">close</i>
             </button>
 

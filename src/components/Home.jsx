@@ -46,16 +46,16 @@ class Home extends Component {
     }
     
 
-    // changeModal = () => {
-    //   this.setState({
-    //     show : false
-    //   })
-    //   setTimeout(() => {
-    //     this.setState({
-    //       showModal : false,
-    //     })
-    //   }, 800);
-    // }
+    changeModal = () => {
+      this.setState({
+        show : false
+      })
+      setTimeout(() => {
+        this.setState({
+          showModal : false,
+        })
+      }, 800);
+    }
 
     addToFavorite = ( food ) => {
       console.log('OVA je DODATA U FAV ==>', food)
@@ -69,10 +69,10 @@ class Home extends Component {
       })
     }
 
-    nesto = (e) => {
-      e.preventDefault();
-      changeModal()
-    }
+    // nesto = (e) => {
+    //   e.preventDefault();
+    //   changeModal()
+    // }
 
     render() {
         const { data, userID } = this.props;
@@ -88,11 +88,11 @@ class Home extends Component {
               }
               { showModal &&
                 <Food 
-                  // changeModal={ () => this.changeModal() }
+                  changeModal={ () => this.changeModal() }
                   selectedData={ selectedData }
                   show={ show }
                   addToFavorite={ (e) => this.addToFavorite(e)}
-                  nesto={ (e) => this.nesto(e) }
+                  // nesto={ (e) => this.nesto(e) }
                 /> 
               }
             </div> 

@@ -62,14 +62,14 @@ class User extends Component {
                 <div className="portfolio-tab">
                     { cardsList }
                 </div>
-                { showModal &&
+                {/* { showModal &&
                     <Food 
                     changeModal={ (e) => this.changeModal(e) }
                     selectedData={ selectedData }
                     show={ show }
                     addToFavorite={ (e) => this.addToFavorite(e)}
                     /> 
-                }
+                } */}
             </div>
         );
         
