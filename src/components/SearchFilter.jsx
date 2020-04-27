@@ -41,7 +41,8 @@ class SearchFilter extends Component {
 
 // search for data
 
-getData = () => {
+getData = (e) => {
+    e.preventDefault();
     axios.get(`https://api.edamam.com/search?q=${ this.state.mySearch }${ this.state.myHealth }${ this.state.myDiet }&app_id=${ this.state.id }&app_key=${ this.state.key }${ this.state.myCalories }`)
     .then(res => {
     // const persons = res.data;
@@ -166,16 +167,16 @@ addRemoveFilters = (chBoxData, itemValue) => {
 
 render() {
     return (
-        <div className='SearchFilter'>
-            <div className="searchFilter-container">
+        <div className='SearchFilter logged-in'>
+            <form onSubmit={ (e) => this.getData(e) } className="searchFilter-container">
                 <input className='search-input' type="search" placeholder="Search term"  onChange={ (e) => this.handleChange(e) } />
-                <button onClick={ () => this.filterOpen() } className="btn-floating btn-small waves-effect waves-light light-green btn">
+                <button className="btn-floating btn-small waves-effect waves-light light-green btn">
                     <i className="material-icons">settings</i>
                 </button>
-                <button onClick={ () => this.getData() } className="btn-floating btn-small waves-effect waves-light light-green btn">
+                <button onClick={ (e) => this.getData(e) } className="btn-floating btn-small waves-effect waves-light light-green btn">
                     <i className="material-icons">search</i>
                 </button>
-            </div>
+            </form>
             <div id='forms-container' className='forms-container'>
                 <div className='forms-contents'>
                     <div className='forms-content'>

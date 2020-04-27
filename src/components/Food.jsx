@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './Food.css';
 import Slide from 'react-reveal/Slide';
+import { bla } from '../Functions';
 
 class Food extends Component {
 
@@ -10,8 +11,11 @@ class Food extends Component {
             nutData : [],
             ingData : [],
             nutDataEven : [],
-            nutDataOdd : []
+            nutDataOdd : [],
+            showModal : false,
+            show : false
         } 
+        // this.bla = this.bla.bind(this);
     }
 
 componentDidMount() {
@@ -50,7 +54,7 @@ vrednosti = () => {
 
 
 render() {
-    const { changeModal, selectedData, show, addToFavorite } = this.props;
+    const { changeModal, selectedData, show, addToFavorite, nesto } = this.props;
     const { nutDataOdd, nutDataEven, ingData } = this.state;
 
     const foodData = this.props.selectedData !== undefined ? (
@@ -62,11 +66,11 @@ render() {
 
         
 
-            <button onClick={ () =>  changeModal() } className="btn-floating btn-small waves-effect waves-light light-green btn right">
+            <button onClick={ (e) => nesto(e) } className="btn-floating btn-small waves-effect waves-light light-green btn right">
                 <i className="material-icons">close</i>
             </button>
 
-            <button onClick={ () =>  changeModal() } className="btn-floating btn-small waves-effect waves-light light-green btn right">
+            <button  className="btn-floating btn-small waves-effect waves-light light-green btn right">
                 <i className="material-icons">delete</i>
             </button>
             <button onClick={ () =>  addToFavorite( selectedData.recipe ) } className="btn-floating btn-small waves-effect waves-light light-green btn right">

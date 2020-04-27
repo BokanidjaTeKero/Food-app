@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { db } from '../config/Fire';
+import { bla, changeModal } from '../Functions';
 
 import FoodList from './FoodList';
 import Food from './Food';
@@ -9,12 +10,15 @@ class Home extends Component {
     constructor() {
         super();
 
+        // this.changeModal = this.changeModal.bind(this);
+
         this.state = {
             tr : false,
-            showModal : false,
             selectedData : {},
+            showModal : false,
             show : false
         }
+        // this.changeModal = this.changeModal.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -40,17 +44,18 @@ class Home extends Component {
           selectedData : e,
         })
     }
+    
 
-    changeModal = () => {
-      this.setState({
-        show : false
-      })
-      setTimeout(() => {
-        this.setState({
-          showModal : false,
-        })
-      }, 800);
-    }
+    // changeModal = () => {
+    //   this.setState({
+    //     show : false
+    //   })
+    //   setTimeout(() => {
+    //     this.setState({
+    //       showModal : false,
+    //     })
+    //   }, 800);
+    // }
 
     addToFavorite = ( food ) => {
       console.log('OVA je DODATA U FAV ==>', food)
@@ -64,12 +69,16 @@ class Home extends Component {
       })
     }
 
+    nesto = (e) => {
+      e.preventDefault();
+      changeModal()
+    }
+
     render() {
         const { data, userID } = this.props;
         const { selectedData, showModal, show } = this.state;
         return (
           <div className='body-page-launch'>
-            {/* { console.log('selektovana rana ==>', selectedData) } */}
             <div className='launchess'>
               { this.state.tr && 
                   <FoodList 
@@ -79,10 +88,11 @@ class Home extends Component {
               }
               { showModal &&
                 <Food 
-                  changeModal={ (e) => this.changeModal(e) }
+                  // changeModal={ () => this.changeModal() }
                   selectedData={ selectedData }
                   show={ show }
                   addToFavorite={ (e) => this.addToFavorite(e)}
+                  nesto={ (e) => this.nesto(e) }
                 /> 
               }
             </div> 

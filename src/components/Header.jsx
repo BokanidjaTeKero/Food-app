@@ -11,14 +11,14 @@ const Header = ({ setData, handleLogout }) => {
             <nav>
                 <div className="nav-wrapper">
                 <SearchFilter 
-                    className="left"
+                    className="left logged-in"
                     setData = { setData }
                 />
-                <Link to="/home" className="brand-logo center">Logo</Link>
+                <Link to="/home" className="brand-logo center logged-in">Logo</Link>
                 <ul className="right">
-                    <li><Link className='logReg-link' to="/user">Account</Link></li>
-                    <li onClick={( e ) => handleLogout( e )} className='logReg-link'>Logout</li>
-                    <li><Link className='logReg-link' to="/">Log/Reg</Link></li>
+                    <li><Link className='logReg-link logged-in' to="/user">Account</Link></li>
+                    <li onClick={( e ) => handleLogout( e )} className='logReg-link logged-in'>Logout</li>
+                    <li><Link className='logReg-link logged-out' to="/">Log/Reg</Link></li>
                 </ul>
                 </div>
             </nav>

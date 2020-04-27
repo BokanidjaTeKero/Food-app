@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom';
-import { auth } from './config/Fire';
+import { auth, db } from './config/Fire';
 // import axios from 'axios';
 
 import Header from './components/Header';
@@ -17,17 +17,13 @@ class App extends Component {
         // id : '14f36e30',
         data : [],
         userID : '',
-        // userData : [],
-        // idUser : '',
-        // favoriteFood : [],
-        // favoriteFoodForSend : []
+        favoriteFood : [],
     }
 }
 
   componentDidMount() {
     this.trackingAuthStatus();
     this.setData();
-    // this.setUser();
   }
 
   setData = ( newData ) => {
@@ -39,12 +35,12 @@ class App extends Component {
   trackingAuthStatus(){
     auth.onAuthStateChanged( user => {
       if( user ){
-        console.log('user logged in :', user.uid);
         this.setState({
           userID : user.uid
         })
+        this.setupUI(user)
       } else {
-        console.log('user logged out');
+        this.setupUI()
       }
     })
   }
@@ -57,49 +53,51 @@ class App extends Component {
     })
   }
 
-  // componentWillUpdate(nextProps, nextState) {
-  //   if(nextState.userData !== this.state.userData){
-  //     return true
-  //   }
-  // }
-
-  
-
-//   setUser = () => {
-//     axios.get(`https://foodappusersfavoritefood.firebaseio.com/korisnik.json`)
-//     .then( res => { 
-
-//         let data = this.formatData(res.data);
-//         console.log('DATA SA SERVERA O USERU ==>', data)
-//         this.setState({
-//           userData : this.formatData(data)[0],
-//           userActive : true,
-//           idUser : data[0].fireBaseUSERId,
-//           favoriteFood : data[0].favFood
-//         })
-//     })
-//   }
-
-// formatData = (responseData) => {
-//     const data = [];
-//     for (const user in responseData) {
-//         data.push({
-//             ...responseData[user],
-//             fireBaseUSERId: user,
-//         })
-//     }
-//     return data;
-// }
+  formatData = (responseData) => {
+        const data = [];
+        for (const user in responseData) {
+            data.push({
+                ...responseData[user],
+                firestoreId: user,
+            })
+        }
+        return data;
+    }
 
 
+  setupUI = ( user ) => {
+
+    const loggedInLinks = document.querySelectorAll('.logged-in');
+    const loggedOutLinks = document.querySelectorAll('.logged-out');
+
+    if( user ){
+
+      db.collection(`${this.state.userID}`).get().then((querySnapshot) => {
+
+        const collection = [];
+        querySnapshot.forEach((doc) => {
+          collection[doc.id] = doc.data();  
+        });
+
+        this.setState({
+          favoriteFood : this.formatData(collection)
+        })
+    });
+
+      loggedInLinks.forEach( item => item.style.display = 'block');
+      loggedOutLinks.forEach( item => item.style.display = 'none');
+    } else {
+      loggedInLinks.forEach( item => item.style.display = 'none');
+      loggedOutLinks.forEach( item => item.style.display = 'block');
+    }
+  }
 
 
   render() {
-    const { data, userID } = this.state;
+    const { data, userID, favoriteFood } = this.state;
     return (
       <BrowserRouter>
         <div className='App'>
-         { console.log("ID JE ==>", this.state.userID) }
           <Header
               setData = { ( newData ) => this.setData( newData ) }
               handleLogout = { ( e ) => this.handleLogout( e )}
@@ -111,8 +109,8 @@ class App extends Component {
                                   {...props} 
                                   data={ data }
                                   userID={ userID }
-                                  // addToFavorite = { (e) => this.addToFavorite(e)}
-                  />}
+                              />
+                            }
           />
           <Route 
             exact path='/' 
@@ -120,7 +118,12 @@ class App extends Component {
           />
           <Route
             path='/user' 
-            component={ User }
+            render={(props) => < User 
+                                  {...props} 
+                                  favoriteFood={ favoriteFood }
+                                  userID={ userID }
+                              />
+                            }
           />
         </div>
       </BrowserRouter>
