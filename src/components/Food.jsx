@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './Food.css';
 import Slide from 'react-reveal/Slide';
-import { bla } from '../Functions';
+// import { bla } from '../Functions';
 
 class Food extends Component {
 
@@ -54,7 +54,7 @@ vrednosti = () => {
 
 
 render() {
-    const { changeModal, selectedData, show, addToFavorite, nesto } = this.props;
+    const { changeModal, selectedData, show, addToFavorite } = this.props;
     const { nutDataOdd, nutDataEven, ingData } = this.state;
 
     const foodData = this.props.selectedData !== undefined ? (
