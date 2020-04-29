@@ -1,146 +1,84 @@
 import React, { createContext, useState, useEffect } from 'react';
-// import { auth } from '../config/Fire';
-// import {db} from '../config/Fire';
+import axios from 'axios';
+
 
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
-    const [useriD, setUser] = useState([
-        {us : ''}
-    ]);
+    const [searchedData, setSearchedData] = useState({});
 
-    const [favoriteFood, setFavoriteFood] = useState([
-        {food : {}}
-    ]);
-
-    const addUser = (us) => {
-        setUser([{us}])
+    const addData = (searchedData) => {
+        setSearchedData(searchedData)
     }
 
-    const addFavFood = (food) => {
-        setFavoriteFood([{food}])
-    }
+// search input
+const [food, setFood] = useState(
+    ''
+);
+const searchForFood = (food) => {
+    setFood(food)
+}
+const apiReqData = {
+    key : '0a5a92325d15d099bdb12116ab6dbfb0',
+    id : '14f36e30',
+}
+// const getData = () => {
+//     // e.preventDefault()
+    
+//     axios.get(`https://api.edamam.com/search?q=${ food }&app_id=${ apiReqData.id }&app_key=${ apiReqData.key }`)
+//     .then(res => {
+//     // let hrana = res.data;
+//     // console.log('HRANA', food)
+//     // console.log('HRANA IZ RES/DAT/', hrana)
+//     // this.setState({ 
+//     //     data : res.data
+//     //     });
+//     // addData(res.data);
+//     setSearchedData(res.data)
+//     })
+//     // .then(()=> addData())
+//     .then(() => /*this.sendData()*/ console.log('MOTHERFUCKING DATA ==>', searchedData))
 
-    // useEffect(() => {
-    //     trackingAuthStatus()
-    //     console.log('radi')
-    // })
+//     console.log('hrana je he he he ', searchedData)
+// }
 
-    // const trackingAuthStatus = () => {
-    //     auth.onAuthStateChanged( user => {
-    //         if( user ){
-    //             addUser(user.uid)
-    //             // setupUI(user)
-    //             console.log('user je =>', user)
-    //         } else {
-    //             // setupUI()
-    //             console.log('else je')
-    //         }
-    //     })
-    // }
+// const [stanje, setStanje] = useState(false);
+// const rokajStanje = () => {
+//     setStanje(true)
+// }
 
-    // const setupUI = (user) => {
+// useEffect(() => {
+//     getData();
+// },[food])
 
-    //     const loggedInLinks = document.querySelectorAll('.logged-in');
-    //     const loggedOutLinks = document.querySelectorAll('.logged-out');
 
-    //     if( user ){
-
-    //     db.collection(useriD).get().then((querySnapshot) => {
-
-    //         const collection = [];
-    //         querySnapshot.forEach((doc) => {
-    //         collection[doc.id] = doc.data();  
-    //         });
-    //         addFavFood(formatData(collection))
-    //         // this.setState({
-    //         // favoriteFood : formatData(collection)
-    //         // })
-    //     });
-
-    //     loggedInLinks.forEach( item => item.style.display = 'block');
-    //     loggedOutLinks.forEach( item => item.style.display = 'none');
-    //     } else {
-    //     loggedInLinks.forEach( item => item.style.display = 'none');
-    //     loggedOutLinks.forEach( item => item.style.display = 'block');
-    //     }
-    // }
-
-    // const formatData = (responseData) => {
-    //     const data = [];
-    //     for (const user in responseData) {
-    //         data.push({
-    //             ...responseData[user],
-    //             firestoreId: user,
-    //         })
-    //     }
-    //     return data;
-    // }
+//Open and close filter menu 
+//     const [filter, setFilter] = useState(
+//         false
+//     )
+//     const toggleFilter = (e) => {
+//         e.preventDefault();
+//         setFilter(!filter)
+//     }
+//     const filterShow = {
+//         open : {
+//             class : ' swing-in-top-fwd'
+//         },
+//         close : {
+//             class : ' swing-out-top-bck'
+//         }
+//     }
+// useEffect(() => {},[filter])
     return (
-        <AppContext.Provider value={{useriD, addUser, addFavFood, favoriteFood }}>
+        <AppContext.Provider value={{ searchedData, addData, 
+                                     food,
+                                    searchForFood, searchedData,
+                                    apiReqData, addData, /*getData*/
+                                    }}>
             {props.children}
         </AppContext.Provider>
     )
 }
 
 export default AppContextProvider;
-
-
-// formatData = (responseData) => {
-//     const data = [];
-//     for (const user in responseData) {
-//         data.push({
-//             ...responseData[user],
-//             firestoreId: user,
-//         })
-//     }
-//     return data;
-// }
-
-
-
-
-
-// setupUI = ( user ) => {
-
-//     const loggedInLinks = document.querySelectorAll('.logged-in');
-//     const loggedOutLinks = document.querySelectorAll('.logged-out');
-
-//     if( user ){
-
-//       db.collection(`${this.state.userID}`).get().then((querySnapshot) => {
-
-//         const collection = [];
-//         querySnapshot.forEach((doc) => {
-//           collection[doc.id] = doc.data();  
-//         });
-
-//         this.setState({
-//           favoriteFood : this.formatData(collection)
-//         })
-//     });
-
-//       loggedInLinks.forEach( item => item.style.display = 'block');
-//       loggedOutLinks.forEach( item => item.style.display = 'none');
-//     } else {
-//       loggedInLinks.forEach( item => item.style.display = 'none');
-//       loggedOutLinks.forEach( item => item.style.display = 'block');
-//     }
-//   }
-
-
-
-
-// trackingAuthStatus(){
-//     auth.onAuthStateChanged( user => {
-//         if( user ){
-//         this.setState({
-//             userID : user.uid
-//         })
-//         this.setupUI(user)
-//         } else {
-//         this.setupUI()
-//         }
-//     })
-// }
 

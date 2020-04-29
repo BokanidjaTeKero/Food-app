@@ -38,7 +38,7 @@ import { auth } from '../config/Fire';
 
 import SearchFilter from './SearchFilter';
 
-const  Header = () => {
+const  Header = ({setData}) => {
 
 const handleLogout  = (e) => {
     e.preventDefault();
@@ -51,11 +51,11 @@ const handleLogout  = (e) => {
         <div className='Header navbar-fixed'>
             <nav>
                 <div className="nav-wrapper">
-                <SearchFilter className="left logged-in" />
+                <SearchFilter className="left logged-in"  setData = { setData } />
                 <Link to="/home" className="brand-logo center logged-in">Logo</Link>
                 <ul className="right">
                     <li><Link className='logReg-link logged-in' to="/user">Account</Link></li>
-                    <li onClick={(e) => handleLogout(e)} className='logReg-link logged-in'>Logout</li>
+                    <li onClick={(e) => handleLogout(e)} className='logReg-link logout-btn logged-in'>Logout</li>
                 </ul>
                 </div>
             </nav>

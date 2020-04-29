@@ -135,14 +135,14 @@
 
 //********************************************************************************************************* */
 
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import AuthContextProvider from './contexts/AuthContext';
 import AppContextProvider from './contexts/AppContext';
-import { AppContext } from './contexts/AppContext';
+// import { AppContext } from './contexts/AppContext';
 import { auth } from './config/Fire';
 import {db} from './config/Fire';
-import { AuthContext } from './contexts/AuthContext';
+// import { AuthContext } from './contexts/AuthContext';
 
 import Header from './components/Header';
 import LogReg from './components/LogReg';
@@ -178,9 +178,19 @@ const App = () => {
     })
 }
 
-useEffect(() => {
-  trackingAuthStatus()
-})
+// const setData = ( newData ) => {
+//       this.setState({
+//           data : newData
+//       })
+//     }
+
+
+
+// useEffect(() => {
+//   trackingAuthStatus();
+//   // this.setData();
+//   // console.log('useeff app')
+// }, [user])
 
   const setupUI = (user) => {
 
@@ -229,7 +239,9 @@ trackingAuthStatus();
       <div className='App'>
         <AuthContextProvider>
           <AppContextProvider>
-            <Header/>
+            <Header 
+              setData = { ( newData ) => this.setData( newData ) }
+            />
             <Route path='/home' component={ Home } />
             <Route path='/user' component={ User } />
             <Route exact path='/' component={ LogReg } />

@@ -14,3 +14,7 @@ body {
 	background-position: cover;
   background-repeat: no-repeat;
 }
+
+.logout-btn {
+  cursor: pointer
+}
