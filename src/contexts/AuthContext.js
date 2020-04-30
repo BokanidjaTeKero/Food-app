@@ -12,13 +12,13 @@ const AuthContextProvider = (props) => {
     ]);
 
 
-    const [useriD, setUseriD] = useState([
-        {userid : ''}
-    ]);
+    // const [useriD, setUseriD] = useState([
+    //     {userid : ''}
+    // ]);
 
-    const addUserID = (userid) => {
-        setUseriD([{userid}])
-    }
+    // const addUserID = (userid) => {
+    //     setUseriD([{userid}])
+    // }
 
 
 // notifications

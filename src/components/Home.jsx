@@ -100,17 +100,38 @@
 
 import React, { useContext, useState, useEffect } from 'react';
 // import AppContextProvider from '../contexts/AppContext';
-// import { AppContext } from '../contexts/AppContext';
+import { AppContext } from '../contexts/AppContext';
 // import { auth } from '../config/Fire';
 // import {db} from '../config/Fire';
 
 
 
-// import FoodList from './FoodList';
+import FoodList from './FoodList';
 // import Food from './Food';
 
 const Home = () => {
-//   const { addUser } = useContext(AppContext);
+  const { searchedData } = useContext(AppContext);
+  console.log('HOME SEARCH DATA', searchedData)
+  return searchedData.q !== undefined  ? (
+    <div className='body-page-launch'>
+      <div className='launchess'>
+        {/* {console.log('data je')} */}
+         <FoodList />
+         {console.log('DATA IMA HOME', searchedData)}
+        {/* <Food />   */}
+      </div> 
+    </div> 
+  ) : (
+    <div className='body-page-launch'>
+      <div className='launchess'>
+        <h1>Home</h1>
+        {console.log('DATA nema HOME', searchedData)}
+        {/* {console.log('data je')} */}
+         {/* <FoodList /> */}
+        {/* <Food />   */}
+      </div> 
+    </div> 
+  )
 //   const [useriD, setUserID] = useState();
   
 
@@ -178,15 +199,15 @@ const Home = () => {
 
 // trackingAuthStatus()
 
-  return (
-    <div className='body-page-launch'>
-      <div className='launchess'>
-        {/* {console.log('data je')} */}
-        {/* <FoodList />
-        <Food />  */}
-      </div> 
-    </div> 
-  )
+  // return (
+  //   <div className='body-page-launch'>
+  //     <div className='launchess'>
+  //       {/* {console.log('data je')} */}
+  //        <FoodList />
+  //       {/* <Food />   */}
+  //     </div> 
+  //   </div> 
+  // )
 }
 
 export default Home;

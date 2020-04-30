@@ -28,17 +28,18 @@
 
 // export default Header;
 
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-
+// import AppContextProvider from '../contexts/AppContext';
 import { auth } from '../config/Fire';
 
-// import { AuthContext } from '../contexts/AuthContext';
+import { AppContext } from '../contexts/AppContext';
 
 import SearchFilter from './SearchFilter';
 
 const  Header = ({setData}) => {
+    const { loader } = useContext(AppContext);
 
 const handleLogout  = (e) => {
     e.preventDefault();
@@ -59,6 +60,12 @@ const handleLogout  = (e) => {
                 </ul>
                 </div>
             </nav>
+            { loader &&
+            <div className='loader-container'>
+                <div className='loader'></div>
+            </div>
+            }
+            
         </div>
     )
 }

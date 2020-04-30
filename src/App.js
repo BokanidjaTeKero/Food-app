@@ -154,7 +154,7 @@ import User from './components/User';
 const App = () => {
   // const { trackingAuthStatus } = useContext(AppContext);
   // const { addUser } = useContext(AppContext);
-  // const { useriD } = useContext(AuthContext);
+  // const { loader } = useContext(AppContext);
   
   
 
@@ -193,7 +193,7 @@ const App = () => {
 // }, [user])
 
   const setupUI = (user) => {
-
+    console.log('USER JE' , user)
     const loggedInLinks = document.querySelectorAll('.logged-in');
     const loggedOutLinks = document.querySelectorAll('.logged-out');
 

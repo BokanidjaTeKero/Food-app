@@ -252,7 +252,7 @@ const LogReg = () => {
     // })
 
     return (
-        <div className='LogReg'>
+        <div className='LogReg logged-out'>
             <div className="container" id="container">
                 <div className={`form-container login-container ${menu.form}`} id='login-form'>
                     <form onSubmit= { handleLogin }>
