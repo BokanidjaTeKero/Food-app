@@ -57,7 +57,7 @@
 // export default FoodList;
 
 
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import './FoodListBeta.css';
 import uuid from 'uuid/v1';
 import { AppContext } from '../contexts/AppContext';

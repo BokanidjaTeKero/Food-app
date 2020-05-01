@@ -1,75 +1,89 @@
-import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
-
+import React, { createContext, useState } from 'react';
 
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
     const [searchedData, setSearchedData] = useState({});
-
     const addData = (searchedData) => {
         setSearchedData(searchedData)
     }
 
 //loader
-const [loader, setLoader] = useState(false)
+    const [loader, setLoader] = useState(false)
+    const activeLoader = (loader) => {
+        setLoader(loader)
+    }
 
 // search input
-const [food, setFood] = useState();
-const searchForFood = (food) => {
-    setFood(food);
-    getData()
-}
-const apiReqData = {
-    key : '0a5a92325d15d099bdb12116ab6dbfb0',
-    id : '14f36e30',
-}
-const getData = () => {
+    const [food, setFood] = useState();
+    const searchForFood = (food) => {
+        setFood(food);
+    }
+    const apiReqData = {
+        key : '0a5a92325d15d099bdb12116ab6dbfb0',
+        id : '14f36e30',
+    }
     
-    setLoader(true)
-    axios.get(`https://api.edamam.com/search?q=${ food }&app_id=${ apiReqData.id }&app_key=${ apiReqData.key }`)
-    .then(res => {
-    addData(res.data);
-    console.log('DATA iz getData ========> ', searchedData)
-    })
-    .then(()=> setLoader(false))
- 
-}
+// select food
+    const [selectedFood, setSelectedFood] = useState()
+    const selectFood = (selectedFood) => {
+        setSelectedFood(selectedFood);
+        foodValues(selectedFood);
+        setShowModal(true);
+        setTimeout(() => {
+            setShow(true)
+        },10)
+    }
 
+// class of showing food modal
+    const [showModal, setShowModal] = useState(false) 
+    const [show, setShow] = useState(false)    
 
-// useEffect(() => {
-//     console.log('data useEffect ========> ', searchedData)
-// },[searchedData])
+// nutriens and ingredients values showing settings
+    const [nutData, setNutData] = useState();
+    const [ingData, setIngData] = useState();
+    const [nutDataEven, setNutDataEven] = useState();
+    const [nutDataOdd, setNutDataOdd] = useState();
 
-// useEffect(() => {
+const foodValueSettings = ( nutValues,ingValues ) => {
+        let nutEvenValues = [];
+        let nutOddValues = []
+        nutValues.map(( item, index ) => {
+            if( index % 2 === 0 ){
+               return nutEvenValues[nutEvenValues.length] = item;
+            } else {
+               return nutOddValues[nutOddValues.length] = item;
+            }
+        })   
+        setNutData(nutValues)
+        setIngData(ingValues)
+        setNutDataEven(nutEvenValues)
+        setNutDataOdd(nutOddValues) 
+    }
     
-//         getData()
-    
-// },[])
+const foodValues = (selectedFood) => {
+        const nutValues  = Object.values(selectedFood.recipe.totalNutrients);
+        const ingValues  = Object.values(selectedFood.recipe.ingredientLines);
+        
+        foodValueSettings( nutValues,ingValues )
+    }
 
+// close food detail modal
+    const closeModal = () => {
+        setShow(false)
+        setTimeout(() => {
+            setShowModal(false)
+            setSelectedFood('')
+        }, 800)
+    }
 
-//Open and close filter menu 
-//     const [filter, setFilter] = useState(
-//         false
-//     )
-//     const toggleFilter = (e) => {
-//         e.preventDefault();
-//         setFilter(!filter)
-//     }
-//     const filterShow = {
-//         open : {
-//             class : ' swing-in-top-fwd'
-//         },
-//         close : {
-//             class : ' swing-out-top-bck'
-//         }
-//     }
-// useEffect(() => {},[filter])
     return (
-        <AppContext.Provider value={{ searchedData, /*addData,*/ 
-                                     food,
-                                    searchForFood, 
-                                    apiReqData, addData, getData, loader
+        <AppContext.Provider value={{ searchedData, food,
+                                    searchForFood, apiReqData, 
+                                    addData, activeLoader,selectFood,
+                                    show, ingData, nutDataEven, nutDataOdd,
+                                    selectedFood, loader, setShow, closeModal,
+                                    showModal
                                     }}>
             {props.children}
         </AppContext.Provider>

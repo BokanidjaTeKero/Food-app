@@ -135,7 +135,7 @@
 
 //********************************************************************************************************* */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import AuthContextProvider from './contexts/AuthContext';
 import AppContextProvider from './contexts/AppContext';
@@ -168,12 +168,10 @@ const App = () => {
     auth.onAuthStateChanged( user => {
         if( user ){
             // addUser(user.uid)
-            console.log('user id', user)
             setupUI(user)
             // console.log('user je =>', user)
         } else {
             setupUI()
-            console.log('else je')
         }
     })
 }

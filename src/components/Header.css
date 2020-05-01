@@ -27,6 +27,15 @@ nav ul {
     right: 0;
 }
 
+.logo-img {
+    width: 50px;
+    height: 50px;
+    background-image: url('../assets/loader3mini.gif');
+    background-position: center;
+    background-repeat: no-repeat;
+    /* background-color: #7aca25; */
+}
+
 .loader-container {
     position: fixed;
     top: 25%;

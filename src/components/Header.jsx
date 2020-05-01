@@ -28,14 +28,11 @@
 
 // export default Header;
 
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-// import AppContextProvider from '../contexts/AppContext';
 import { auth } from '../config/Fire';
-
 import { AppContext } from '../contexts/AppContext';
-
 import SearchFilter from './SearchFilter';
 
 const  Header = ({setData}) => {
@@ -53,7 +50,9 @@ const handleLogout  = (e) => {
             <nav>
                 <div className="nav-wrapper">
                 <SearchFilter className="left logged-in"  setData = { setData } />
-                <Link to="/home" className="brand-logo center logged-in">Logo</Link>
+                <Link to="/home" className="brand-logo center logged-in">
+                    <div className='logo-img'></div>
+                </Link>
                 <ul className="right">
                     <li><Link className='logReg-link logged-in' to="/user">Account</Link></li>
                     <li onClick={(e) => handleLogout(e)} className='logReg-link logout-btn logged-in'>Logout</li>

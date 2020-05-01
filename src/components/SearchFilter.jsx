@@ -274,95 +274,47 @@
 
 
 
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import './SearchFilter.css';
 import axios from 'axios';
 import { AppContext } from '../contexts/AppContext';
 
 const SearchFilter = () => {
-    const { 
-        searchedData,
-            // searchForFood,
-            // food,
-            apiReqData, /*addData, getData*/
-            } = useContext(AppContext);
-
-    // const [searchedData, setSearchedData] = useState({})
-    const [food, setFood] = useState('')
-    const { addData } = useContext(AppContext)
+    const { apiReqData } = useContext(AppContext);
+    const { addData } = useContext(AppContext);
+    const { activeLoader } = useContext(AppContext);
+    const [ food, setFood ] = useState('');
+    const [ filter, setFilter ] = useState( false );
     
-    // const [foodTerm, setfoodTerm] = useState('');
-    // const handleSearch = (e) => {
-    //     e.preventDefault();
-    //     searchForFood(foodTerm)
-    //     getData(e);
-    //     // setfoodTerm('')
-    //     console.log('handlesearch')
-    // }
-
-
-// useEffect(() => {
-//     getData();
-// })
-
-//    useEffect(() => {
-//         getData();
-//    })
-
     const getData = (e) => {
         e.preventDefault()
+        activeLoader(true);
         axios.get(`https://api.edamam.com/search?q=${ food }&app_id=${ apiReqData.id }&app_key=${ apiReqData.key }`)
-        .then(req => {
-            // console.log('resDAta', res.data)
-        // let hrana = res.data;
-        // console.log('HRANA', food)
-        // console.log('HRANA IZ RES/DAT/', hrana)
-        // this.setState({ 
-        //     data : res.data
-        //     });
-        console.log('GETDATA REQ DATA', req.data)
-        addData(req.data);
-        // console.log('MOTHERFUCKING DATA 1 ==>', searchedData)
-        })
-        // .catch(() => console.log('error u req'))
-        .then(() => console.log('MOTHERFUCKING DATA 1 ==>', searchedData))
-        
-
+        .then(req => addData(req.data))
+        .then(() => setFood(''))
+        .then(()=> activeLoader(false))
     }
 
-// useEffect(() => {
-//     getData();
-// }, [foodTerm])
-
-const [filter, setFilter] = useState(
-    false
-)
-const toggleFilter = (e) => {
-    e.preventDefault();
-    setFilter(!filter)
-}
-const filterShow = {
-    open : {
-        class : ' swing-in-top-fwd'
-    },
-    close : {
-        class : ' swing-out-top-bck'
+    const toggleFilter = (e) => {
+        e.preventDefault();
+        setFilter(!filter)
     }
-}
-// useEffect(() => {console.log('filter')},[filter])
 
+    const filterShow = {
+        open : { class : ' swing-in-top-fwd' },
+        close : { class : ' swing-out-top-bck' }
+    }
 
     const filterMenu = filter ? filterShow.open : filterShow.close;
     return (
         <div className='SearchFilter logged-in'>
-            {/* {console.log('DATA iz komponente ========> ', searchedData)} */}
-            <form  className="searchFilter-container">
+            <form onSubmit={(e) => getData(e)} className="searchFilter-container">
                 <input className='search-input' type="search" placeholder="Search term" value={ food } onChange={({target}) => setFood(target.value)} />
-                <button onClick={(e) => toggleFilter(e)} className="btn-floating btn-small waves-effect waves-light light-green btn">
-                    <i className="material-icons">settings</i>
-                </button>
                 <button onClick={(e) => getData(e)} className="btn-floating btn-small waves-effect waves-light light-green btn">
                     <i className="material-icons">search</i>
+                </button>
+                <button onClick={(e) => toggleFilter(e)} className="btn-floating btn-small waves-effect waves-light light-green btn">
+                    <i className="material-icons">settings</i>
                 </button>
             </form>
             <div id='forms-container' className={`forms-container ${filterMenu.class}`}>

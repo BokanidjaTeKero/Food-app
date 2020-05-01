@@ -98,7 +98,7 @@
 
 
 
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 // import AppContextProvider from '../contexts/AppContext';
 import { AppContext } from '../contexts/AppContext';
 // import { auth } from '../config/Fire';
@@ -107,25 +107,30 @@ import { AppContext } from '../contexts/AppContext';
 
 
 import FoodList from './FoodList';
-// import Food from './Food';
+import Food from './Food';
 
 const Home = () => {
   const { searchedData } = useContext(AppContext);
-  console.log('HOME SEARCH DATA', searchedData)
+  // const { show } = useContext(AppContext);
+  const { showModal } = useContext(AppContext);    
+  // console.log('HOME SEARCH DATA', searchedData)
   return searchedData.q !== undefined  ? (
     <div className='body-page-launch'>
       <div className='launchess'>
         {/* {console.log('data je')} */}
          <FoodList />
-         {console.log('DATA IMA HOME', searchedData)}
-        {/* <Food />   */}
+         {/* {console.log('DATA IMA HOME', searchedData)} */}
+         { showModal &&
+          <Food /> 
+         }
+         
       </div> 
     </div> 
   ) : (
     <div className='body-page-launch'>
       <div className='launchess'>
         <h1>Home</h1>
-        {console.log('DATA nema HOME', searchedData)}
+        {/* {console.log('DATA nema HOME', searchedData)} */}
         {/* {console.log('data je')} */}
          {/* <FoodList /> */}
         {/* <Food />   */}
