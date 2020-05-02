@@ -135,10 +135,10 @@
 
 //********************************************************************************************************* */
 
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import AuthContextProvider from './contexts/AuthContext';
-import AppContextProvider from './contexts/AppContext';
+import AppContextProvider, { AppContext } from './contexts/AppContext';
 // import { AppContext } from './contexts/AppContext';
 import { auth } from './config/Fire';
 import {db} from './config/Fire';
@@ -155,6 +155,8 @@ const App = () => {
   // const { trackingAuthStatus } = useContext(AppContext);
   // const { addUser } = useContext(AppContext);
   // const { loader } = useContext(AppContext);
+  // const { addUserID } = useContext(AppContext);
+  const [userID, setUserID] = useState();
   
   
 
@@ -167,7 +169,7 @@ const App = () => {
   const trackingAuthStatus = () => {
     auth.onAuthStateChanged( user => {
         if( user ){
-            // addUser(user.uid)
+            // addUserID(user.uid)
             setupUI(user)
             // console.log('user je =>', user)
         } else {
@@ -196,12 +198,14 @@ const App = () => {
     const loggedOutLinks = document.querySelectorAll('.logged-out');
 
     if( user ){
-
+      // addUserID(user.uid)
+      setUserID(user.uid)
     db.collection(user.uid).get().then((querySnapshot) => {
 
         const collection = [];
         querySnapshot.forEach((doc) => {
-        collection[doc.id] = doc.data();  
+        collection[doc.id] = doc.data(); 
+        // addUserID(user.uid) 
         });
         // addFavFood(formatData(collection))
         console.log('data je', (formatData(collection)))
@@ -230,7 +234,11 @@ const App = () => {
     return data;
 }
 
-trackingAuthStatus();
+// trackingAuthStatus();
+useEffect(() => {
+  trackingAuthStatus()
+}, [])
+
 
   return(
     <BrowserRouter>

@@ -175,6 +175,7 @@ function Food() {
     const { selectedFood } = useContext(AppContext);
     const { show } = useContext(AppContext);
     const { closeModal } = useContext(AppContext);
+    const { addToFavorite } = useContext(AppContext);
     // console.log('NUT iz komp ==>', nutDataEven)
     return (
         <Slide left when={ show }>
@@ -188,7 +189,7 @@ function Food() {
                 <button  className="btn-floating btn-small waves-effect waves-light light-green btn right">
                     <i className="material-icons">delete</i>
                 </button>
-                <button  className="btn-floating btn-small waves-effect waves-light light-green btn right">
+                <button onClick={() => addToFavorite(selectedFood)} className="btn-floating btn-small waves-effect waves-light light-green btn right">
                     <i className="material-icons">add</i>
                 </button>
 

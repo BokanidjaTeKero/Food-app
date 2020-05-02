@@ -62,14 +62,16 @@ import './FoodListBeta.css';
 import uuid from 'uuid/v1';
 import { AppContext } from '../contexts/AppContext';
 
-const FoodList = () => {
-        const { searchedData, selectFood } = useContext(AppContext);
-        const cardsList = searchedData !== undefined ? (
+const FoodList = ({ data, selectData }) => {
+        // const { data, selectData } = useContext(AppContext);
+
+        // const boka = this.props.data;
+        const cardsList = data !== undefined ? (
         
-            searchedData.hits.map( (card, index) => {
+            data.hits.map( (card, index) => {
                 if( index % 2 === 0 ) {
                     return (
-                        <div className="column" key={ uuid() } onClick={ () => { selectFood( card ) } } >
+                        <div className="column" key={ card.firestoreId || uuid() } onClick={ () => { selectData( card ) } } >
                             <div className='prow prow1'>
                             <div>
                                 <div className="thumb_nb" style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
@@ -83,7 +85,7 @@ const FoodList = () => {
                     )
                 } else {
                     return (
-                        <div className="column" key={ uuid() } onClick={ () => { selectFood( card ) } } >
+                        <div className="column" key={ card.firestoreId || uuid() } onClick={ () => { selectData( card ) } } >
                             <div className='prow prow2'>
                             <div>
                                 <div className="thumb_nb" style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
@@ -114,3 +116,5 @@ const FoodList = () => {
 }
 
 export default FoodList;
+
+

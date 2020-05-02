@@ -1,4 +1,5 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import {db} from '../config/Fire';
 
 export const AppContext = createContext();
 
@@ -6,6 +7,18 @@ const AppContextProvider = (props) => {
     const [searchedData, setSearchedData] = useState({});
     const addData = (searchedData) => {
         setSearchedData(searchedData)
+    }
+
+// favorite food data
+    const [favFood, setFavFood] = useState({});
+    const addFavFood = (favFood) => {
+        setFavFood(favFood)
+    }
+
+// user
+    const [userID, setUserID] = useState();
+    const addUserID = (userID) => {
+        setUserID(userID)
     }
 
 //loader
@@ -23,7 +36,105 @@ const AppContextProvider = (props) => {
         key : '0a5a92325d15d099bdb12116ab6dbfb0',
         id : '14f36e30',
     }
+
+// url config
+const [filter, setFilter] = useState( false );
+const [myHealth, setMyHealth] = useState('');
+const [myDiet, setMyDiet] = useState('');
+const [myCalories, setMyCalories] = useState('');
+const [healthChBoxValues, setHealthChBoxValues] = useState([]);
+const [dietChBoxValues, setDietChBoxValues] = useState([]);
+const [myMinCal, setMyMinCal] = useState('');
+const [myMaxCal, setMyMaxCal] = useState('');
+
+// url config part ||
+    const deployingUrl = () => {
+        
+        setMyHealth( urlConfig( healthChBoxValues, 'health' ))
+        setMyDiet( urlConfig( dietChBoxValues, 'diet' ))
+        setMyCalories( caloriesUrlConfig( myMinCal, myMaxCal ))
+        
+        setFilter(false) // OVO SREDI !!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
     
+    const urlConfig = ( data, type ) => {
+        
+        const url = data.length ? (
+            data.map( item => {
+                return `&${ type }=${ item }`
+            } )
+        ) :
+        (
+            console.log('nothing is selected as a filter')
+        )
+        
+        let joinedUrl = '';
+        url !== undefined ? (
+            joinedUrl = url.join('')
+        ) 
+        : 
+        (
+            joinedUrl = ''
+        )
+        
+        return joinedUrl
+    }
+
+    const caloriesUrlConfig = ( min, max) => {
+    
+        let url = '';
+        min.length ? (
+            url = `&calories=${ min }-${ max }`
+        ) 
+        : 
+        (
+            url = ''
+        )
+        return url;
+    }
+    
+    // calories filter
+    
+    const handleCaloriesBox = (value) => {
+        let txt = value.target.value;
+        let id = value.target.id;
+    
+        id === 'min-cal' ? 
+        (
+            setMyMinCal(txt)
+        ) 
+        : 
+        (
+            setMyMaxCal(txt)
+        )
+    }
+
+    const handleCheckBox = (value) => {
+        let itemValue = value.target.value;
+        let group = value.target.name;
+        let data;
+
+        group === 'health' ? 
+        data = healthChBoxValues :
+        data = dietChBoxValues
+
+        if(itemValue !== undefined){
+            if(data.includes( itemValue )) {
+                let position = data.indexOf( itemValue );
+                data.splice( position, 1)
+                group === 'health' ? 
+                setHealthChBoxValues(data) :
+                setDietChBoxValues(data)
+                
+            } else {
+                data[data.length] = itemValue
+                group === 'health' ? 
+                setHealthChBoxValues(data) :
+                setDietChBoxValues(data)
+            }
+        }    
+    }
+
 // select food
     const [selectedFood, setSelectedFood] = useState()
     const selectFood = (selectedFood) => {
@@ -77,13 +188,36 @@ const foodValues = (selectedFood) => {
         }, 800)
     }
 
+// adding food to favorite 
+
+    const addToFavorite = ( food ) => {
+        console.log('OVA je DODATA U FAV ==>', food.recipe)
+        console.log('UID ==>', userID)
+        let recipe = food.recipe;
+
+        db.collection( userID ).add({
+            recipe
+        }).then(() => {
+        console.log('DODATO JE')
+        }).catch(( err ) => {
+        console.log('greska', err)
+        })
+    }
+
+    useEffect(() => {
+        console.log('FAV FOOD JE USE EFF ==>', favFood)
+      }, [favFood])
+
     return (
         <AppContext.Provider value={{ searchedData, food,
                                     searchForFood, apiReqData, 
                                     addData, activeLoader,selectFood,
                                     show, ingData, nutDataEven, nutDataOdd,
                                     selectedFood, loader, setShow, closeModal,
-                                    showModal
+                                    showModal, myHealth, myDiet, deployingUrl,
+                                    handleCheckBox, filter, handleCaloriesBox,
+                                    myCalories, addUserID, addToFavorite, userID, setUserID,
+                                    addFavFood, favFood
                                     }}>
             {props.children}
         </AppContext.Provider>

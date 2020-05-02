@@ -283,13 +283,21 @@ const SearchFilter = () => {
     const { apiReqData } = useContext(AppContext);
     const { addData } = useContext(AppContext);
     const { activeLoader } = useContext(AppContext);
+    const { myHealth } = useContext(AppContext);
+    const { myDiet } = useContext(AppContext);
+    const { myCalories } = useContext(AppContext);
+    // const [myHealth, setMyHealth] = useState('');
+    // const [myDiet, setMyDiet] = useState('');
+    const { deployingUrl } = useContext(AppContext);
+    const { handleCheckBox } = useContext(AppContext);
+    const { handleCaloriesBox } = useContext(AppContext);
     const [ food, setFood ] = useState('');
     const [ filter, setFilter ] = useState( false );
     
     const getData = (e) => {
         e.preventDefault()
         activeLoader(true);
-        axios.get(`https://api.edamam.com/search?q=${ food }&app_id=${ apiReqData.id }&app_key=${ apiReqData.key }`)
+        axios.get(`https://api.edamam.com/search?q=${ food }${ myHealth }${ myDiet }&app_id=${ apiReqData.id }&app_key=${ apiReqData.key }${ myCalories }`)
         .then(req => addData(req.data))
         .then(() => setFood(''))
         .then(()=> activeLoader(false))
@@ -323,11 +331,11 @@ const SearchFilter = () => {
                         <div className='calories-element'>
                             <p>Calories</p>
                             <form className='calories-form' action='#'>
-                                <label >
+                                <label onChange={(e) => handleCaloriesBox(e)}>
                                     <span>From</span>
                                     <input className="calories-input" type="number" id='min-cal' />
                                 </label>
-                                <label >
+                                <label onChange={(e) => handleCaloriesBox(e)}>
                                     <span>To</span>
                                     <input className="calories-input" type="number" id='max-cal' />
                                 </label>
@@ -337,25 +345,25 @@ const SearchFilter = () => {
                             <p>Health</p>
                             <form className='filter-form health-form' action='#'>
                                 <p>
-                                <label >
+                                <label onClick={(e) => handleCheckBox(e)}>
                                     <input id="alcohol-free" type="checkbox" value='alcohol-free' name='health' />
                                     <span>Alcohol free</span>
                                 </label>
                                 </p>
                                 <p>
-                                <label >
+                                <label onClick={(e) => handleCheckBox(e)}>
                                     <input id="vegan" type="checkbox" value='vegan' name='health' />
                                     <span>Vegan</span>
                                 </label>
                                 </p>
                                 <p>
-                                <label >
+                                <label onClick={(e) => handleCheckBox(e)}>
                                     <input id="vegetarian" type="checkbox" value='vegetarian' name='health' />
                                     <span>Vegetarian</span>
                                 </label>
                                 </p>
                                 <p>
-                                <label >
+                                <label onClick={(e) => handleCheckBox(e)}>
                                     <input id="peanuts" type="checkbox" value='peanuts' name='health' />
                                     <span>Peanuts</span>
                                 </label>
@@ -366,25 +374,25 @@ const SearchFilter = () => {
                             <p>Diet</p>
                             <form className='filter-form diet-form' action='#'>
                                 <p>
-                                <label >
+                                <label onClick={(e) => handleCheckBox(e)}>
                                     <input id="balanced" type="checkbox" value='balanced' name='diet'/>
                                     <span>Balanced</span>
                                 </label>
                                 </p>
                                 <p>
-                                <label >
+                                <label onClick={(e) => handleCheckBox(e)}>
                                     <input id="high-protein" type="checkbox" value='high-protein' name='diet'/>
                                     <span>High-Protein</span>
                                 </label>
                                 </p>
                                 <p>
-                                <label >
+                                <label onClick={(e) => handleCheckBox(e)}>
                                     <input id="low-carb" type="checkbox" value='low-carb' name='diet'/>
                                     <span>Low-Carb</span>
                                 </label>
                                 </p>
                                 <p>
-                                <label >
+                                <label onClick={(e) => handleCheckBox(e)}>
                                     <input id="low-fat" type="checkbox" value='low-fat' name='diet' />
                                     <span>Low-Fat</span>
                                 </label>
@@ -394,7 +402,7 @@ const SearchFilter = () => {
                     </div>
                 </div>
                 <div className='forms-controls'>
-                    <button  className="btn-floating btn-small waves-effect waves-light light-green btn">
+                    <button onClick={() => deployingUrl() } className="btn-floating btn-small waves-effect waves-light light-green btn">
                         <i className="material-icons">done</i>
                     </button>
                     <button onClick={(e) => toggleFilter(e)} className="btn-floating btn-small waves-effect waves-light light-green btn">
