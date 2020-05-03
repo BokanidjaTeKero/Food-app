@@ -138,7 +138,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import AuthContextProvider from './contexts/AuthContext';
-import AppContextProvider, { AppContext } from './contexts/AppContext';
+import AppContextProvider from './contexts/AppContext';
 // import { AppContext } from './contexts/AppContext';
 import { auth } from './config/Fire';
 import {db} from './config/Fire';
@@ -155,7 +155,7 @@ const App = () => {
   // const { trackingAuthStatus } = useContext(AppContext);
   // const { addUser } = useContext(AppContext);
   // const { loader } = useContext(AppContext);
-  // const { addUserID } = useContext(AppContext);
+  // const { addFavFood } = useContext(AppContext);
   const [userID, setUserID] = useState();
   
   
@@ -193,7 +193,7 @@ const App = () => {
 // }, [user])
 
   const setupUI = (user) => {
-    console.log('USER JE' , user)
+    // console.log('USER JE' , user)
     const loggedInLinks = document.querySelectorAll('.logged-in');
     const loggedOutLinks = document.querySelectorAll('.logged-out');
 
@@ -208,9 +208,9 @@ const App = () => {
         // addUserID(user.uid) 
         });
         // addFavFood(formatData(collection))
-        console.log('data je', (formatData(collection)))
+        // console.log('data je', (formatData(collection)))
         // this.setState({
-        // favoriteFood : formatData(collection)
+          // addFavFood(formatData(collection))
         // })
     });
 
@@ -220,24 +220,27 @@ const App = () => {
     loggedInLinks.forEach( item => item.style.display = 'none');
     loggedOutLinks.forEach( item => item.style.display = 'block');
     }
+
+    
 }
 
 
-  const formatData = (responseData) => {
-    const data = [];
-    for (const user in responseData) {
-        data.push({
-            ...responseData[user],
-            firestoreId: user,
-        })
-    }
-    return data;
-}
+//   const formatData = (responseData) => {
+//     const data = [];
+//     for (const user in responseData) {
+//         data.push({
+//             ...responseData[user],
+//             firestoreId: user,
+//         })
+//     }
+//     return data;
+// }
 
 // trackingAuthStatus();
 useEffect(() => {
   trackingAuthStatus()
 }, [])
+
 
 
   return(

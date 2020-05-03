@@ -120,6 +120,7 @@ const Home = () => {
   const { favFood, setFavFood } = useContext(AppContext);
   const { addFavFood } = useContext(AppContext);
   const [userID, setUserID] = useState();
+  const { showHome } = useContext(AppContext);
 
 
 const provera = () => {

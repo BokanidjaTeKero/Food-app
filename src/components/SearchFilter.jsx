@@ -288,6 +288,7 @@ const SearchFilter = () => {
     const { myCalories } = useContext(AppContext);
     // const [myHealth, setMyHealth] = useState('');
     // const [myDiet, setMyDiet] = useState('');
+    // const { showHome } = useContext(AppContext);
     const { deployingUrl } = useContext(AppContext);
     const { handleCheckBox } = useContext(AppContext);
     const { handleCaloriesBox } = useContext(AppContext);
@@ -315,7 +316,7 @@ const SearchFilter = () => {
 
     const filterMenu = filter ? filterShow.open : filterShow.close;
     return (
-        <div className='SearchFilter logged-in'>
+        <div className='SearchFilter '>
             <form onSubmit={(e) => getData(e)} className="searchFilter-container">
                 <input className='search-input' type="search" placeholder="Search term" value={ food } onChange={({target}) => setFood(target.value)} />
                 <button onClick={(e) => getData(e)} className="btn-floating btn-small waves-effect waves-light light-green btn">

@@ -214,7 +214,7 @@
 
 
 
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import './LogReg.css';
 import { AuthContext } from '../contexts/AuthContext';
 

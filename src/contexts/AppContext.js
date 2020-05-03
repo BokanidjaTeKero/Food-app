@@ -27,6 +27,19 @@ const AppContextProvider = (props) => {
         setLoader(loader)
     }
 
+// show searching page / home SearchFilter
+// const showSearchOnHome = () => {
+//     let search = document.querySelectorAll('.only-show-on-home-page');
+//     search.forEach( item => item.style.display = 'block')
+// }
+
+// const doNotShowSearch = () => {
+//     let search = document.querySelectorAll('.only-show-on-home-page');
+//     search.forEach( item => item.style.display = 'none')
+// }
+
+// showHome()
+
 // search input
     const [food, setFood] = useState();
     const searchForFood = (food) => {
@@ -161,9 +174,9 @@ const foodValueSettings = ( nutValues,ingValues ) => {
         let nutOddValues = []
         nutValues.map(( item, index ) => {
             if( index % 2 === 0 ){
-               return nutEvenValues[nutEvenValues.length] = item;
+            return nutEvenValues[nutEvenValues.length] = item;
             } else {
-               return nutOddValues[nutOddValues.length] = item;
+            return nutOddValues[nutOddValues.length] = item;
             }
         })   
         setNutData(nutValues)
@@ -193,20 +206,54 @@ const foodValues = (selectedFood) => {
     const addToFavorite = ( food ) => {
         console.log('OVA je DODATA U FAV ==>', food.recipe)
         console.log('UID ==>', userID)
-        let recipe = food.recipe;
+        let hits = food;
 
-        db.collection( userID ).add({
-            recipe
-        }).then(() => {
-        console.log('DODATO JE')
-        }).catch(( err ) => {
+        db.collection( userID ).add(
+            hits
+        ).then(() => { getFavoriteFoodData()}).catch(( err ) => {
         console.log('greska', err)
         })
     }
 
+    const formatData = (responseData) => {
+        const data = [];
+        for (const user in responseData) {
+            data.push({
+                ...responseData[user],
+                firestoreId: user,
+            })
+        }
+        return data;
+    }
+
     useEffect(() => {
         console.log('FAV FOOD JE USE EFF ==>', favFood)
-      }, [favFood])
+    }, [favFood])
+
+// delete favorite food
+const deleteFood = (food) => {
+    console.log('delete', food.firestoreId)
+    db.collection(userID).doc(food.firestoreId).delete().then(() => {
+        console.log("Document successfully deleted!");
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
+    closeModal()
+    getFavoriteFoodData()
+}
+
+// get favorite food data
+const getFavoriteFoodData = () => {
+    db.collection(userID).get().then((querySnapshot) => {
+        const collection = [];
+        querySnapshot.forEach((doc) => {
+        collection[doc.id] = doc.data(); 
+        
+        });
+        addFavFood(formatData(collection))
+    })
+}
+
 
     return (
         <AppContext.Provider value={{ searchedData, food,
@@ -217,7 +264,7 @@ const foodValues = (selectedFood) => {
                                     showModal, myHealth, myDiet, deployingUrl,
                                     handleCheckBox, filter, handleCaloriesBox,
                                     myCalories, addUserID, addToFavorite, userID, setUserID,
-                                    addFavFood, favFood
+                                    addFavFood, favFood, deleteFood
                                     }}>
             {props.children}
         </AppContext.Provider>
