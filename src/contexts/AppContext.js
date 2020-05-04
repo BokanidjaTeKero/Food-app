@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { auth } from '../config/Fire';
 import {db} from '../config/Fire';
 
 export const AppContext = createContext();
@@ -28,17 +29,10 @@ const AppContextProvider = (props) => {
     }
 
 // show searching page / home SearchFilter
-// const showSearchOnHome = () => {
-//     let search = document.querySelectorAll('.only-show-on-home-page');
-//     search.forEach( item => item.style.display = 'block')
-// }
-
-// const doNotShowSearch = () => {
-//     let search = document.querySelectorAll('.only-show-on-home-page');
-//     search.forEach( item => item.style.display = 'none')
-// }
-
-// showHome()
+    const [showSearch, setShowSearch] = useState();
+    const changeSearchBarShowMode = (showSearch) => {
+        setShowSearch(showSearch)
+    }
 
 // search input
     const [food, setFood] = useState();
@@ -106,8 +100,7 @@ const [myMaxCal, setMyMaxCal] = useState('');
         return url;
     }
     
-    // calories filter
-    
+// calories filter
     const handleCaloriesBox = (value) => {
         let txt = value.target.value;
         let id = value.target.id;
@@ -169,7 +162,7 @@ const [myMaxCal, setMyMaxCal] = useState('');
     const [nutDataEven, setNutDataEven] = useState();
     const [nutDataOdd, setNutDataOdd] = useState();
 
-const foodValueSettings = ( nutValues,ingValues ) => {
+    const foodValueSettings = ( nutValues,ingValues ) => {
         let nutEvenValues = [];
         let nutOddValues = []
         nutValues.map(( item, index ) => {
@@ -185,7 +178,7 @@ const foodValueSettings = ( nutValues,ingValues ) => {
         setNutDataOdd(nutOddValues) 
     }
     
-const foodValues = (selectedFood) => {
+    const foodValues = (selectedFood) => {
         const nutValues  = Object.values(selectedFood.recipe.totalNutrients);
         const ingValues  = Object.values(selectedFood.recipe.ingredientLines);
         
@@ -202,17 +195,26 @@ const foodValues = (selectedFood) => {
     }
 
 // adding food to favorite 
-
     const addToFavorite = ( food ) => {
-        console.log('OVA je DODATA U FAV ==>', food.recipe)
+        console.log('OVA je DODATA U FAV ==>', food.recipe.image)
         console.log('UID ==>', userID)
         let hits = food;
+        let comparator = food.recipe.image;
 
-        db.collection( userID ).add(
-            hits
-        ).then(() => { getFavoriteFoodData()}).catch(( err ) => {
-        console.log('greska', err)
+    // comparing the food item for add, with the favorite food data items
+        const canBeAdded = favFood.every(item => {
+            return item.recipe.image !== comparator
         })
+
+        canBeAdded ? (
+            db.collection( userID ).add(
+                hits
+            ).then(() => { getFavoriteFoodData()}).catch(( err ) => {
+            console.log('greska', err)
+            })
+        ) : (
+            console.log('HRANA POSTOJI VEC')
+        )
     }
 
     const formatData = (responseData) => {
@@ -231,28 +233,64 @@ const foodValues = (selectedFood) => {
     }, [favFood])
 
 // delete favorite food
-const deleteFood = (food) => {
-    console.log('delete', food.firestoreId)
-    db.collection(userID).doc(food.firestoreId).delete().then(() => {
-        console.log("Document successfully deleted!");
-    }).catch(function(error) {
-        console.error("Error removing document: ", error);
-    });
-    closeModal()
-    getFavoriteFoodData()
-}
+    const deleteFood = (food) => {
+        console.log('delete', food.firestoreId)
+        db.collection(userID).doc(food.firestoreId).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch(error => {
+            console.error("Error removing document: ", error);
+        });
+        getFavoriteFoodData()
+        closeModal()
+    }
 
 // get favorite food data
-const getFavoriteFoodData = () => {
-    db.collection(userID).get().then((querySnapshot) => {
+    const getFavoriteFoodData = () => {
+        db.collection(userID).get().then((querySnapshot) => {
+            const collection = [];
+            querySnapshot.forEach((doc) => {
+            collection[doc.id] = doc.data(); 
+            });
+            addFavFood(formatData(collection))
+        })
+    }
+
+    const provera = () => {
+        auth.onAuthStateChanged( user => {
+        if( user ){
+            addUserID(user.uid)
+            // console.log('user je home',user.uid)
+            favoriteFood(user)
+        } else {
+            console.log('nema usera home')
+        }
+    })}
+
+    const favoriteFood = (user) => {
+        db.collection(user.uid).get().then((querySnapshot) => {
         const collection = [];
-        querySnapshot.forEach((doc) => {
-        collection[doc.id] = doc.data(); 
+            querySnapshot.forEach((doc) => {
+            collection[doc.id] = doc.data();
+            });
+            addFavFood(formatData(collection))
+            }  
+        )
+    }
+
+    const btnAvailable = {
+        del : true,
+        add : true
+    }
+
+    // const [showSearch, setShowSearch] = useState();
+
+    // const [btnAvailableDel, setBtnAvailableDel] = useState();
+    // const [btnAvailableAdd, setBtnAvailableAdd] = useState();
+
+    useEffect(() => {
+        provera()
         
-        });
-        addFavFood(formatData(collection))
-    })
-}
+    }, [userID])
 
 
     return (
@@ -264,7 +302,8 @@ const getFavoriteFoodData = () => {
                                     showModal, myHealth, myDiet, deployingUrl,
                                     handleCheckBox, filter, handleCaloriesBox,
                                     myCalories, addUserID, addToFavorite, userID, setUserID,
-                                    addFavFood, favFood, deleteFood
+                                    addFavFood, favFood, deleteFood, btnAvailable, showSearch,
+                                    changeSearchBarShowMode
                                     }}>
             {props.children}
         </AppContext.Provider>

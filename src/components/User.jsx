@@ -79,7 +79,7 @@
 
 // export default User;
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import './FoodListBeta.css';
 import FoodList from './FoodList';
@@ -89,13 +89,18 @@ const User = () => {
     const { showModal } = useContext(AppContext);
     const { favFood } = useContext(AppContext);
     const { selectFood } = useContext(AppContext);
+    const { changeSearchBarShowMode } = useContext(AppContext);
+    const [btnAvailableDel, setBtnAvailableDel] = useState(true);
+    const [btnAvailableAdd, setBtnAvailableAdd] = useState(false);
 
-    return favFood !== undefined || favFood !== null ? (
+    changeSearchBarShowMode(false)
+
+    return favFood !== undefined && favFood !== null && favFood.length > 0 ? (
         <div className='body-page-launch'>
           <div className='launchess'>
             <FoodList data={ favFood } selectData={ selectFood }/>
             { showModal &&
-              <Food /> 
+              <Food del={ btnAvailableDel } add={ btnAvailableAdd } /> 
             }
           </div> 
         </div> 

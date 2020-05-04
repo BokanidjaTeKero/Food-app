@@ -37,6 +37,7 @@ import SearchFilter from './SearchFilter';
 
 const  Header = ({setData}) => {
     const { loader } = useContext(AppContext);
+    const { showSearch } = useContext(AppContext);
 
 const handleLogout  = (e) => {
     e.preventDefault();
@@ -49,7 +50,9 @@ const handleLogout  = (e) => {
         <div className='Header navbar-fixed'>
             <nav>
                 <div className="nav-wrapper">
-                <SearchFilter className="left only-show-on-home-page" setData = { setData } />
+                { showSearch &&
+                    <SearchFilter className="left only-show-on-home-page" setData = { setData } />
+                }
                 <Link  to="/home" className="brand-logo center logged-in">
                     <div className='logo-img'></div>
                 </Link>

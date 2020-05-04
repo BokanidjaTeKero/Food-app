@@ -101,9 +101,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 // import AppContextProvider from '../contexts/AppContext';
 import { AppContext } from '../contexts/AppContext';
-import { auth } from '../config/Fire';
 // import { auth } from '../config/Fire';
-import {db} from '../config/Fire';
+// import { auth } from '../config/Fire';
+// import {db} from '../config/Fire';
 
 
 
@@ -115,45 +115,42 @@ const Home = () => {
   // const { show } = useContext(AppContext);
   const { showModal } = useContext(AppContext);    
   // console.log('HOME SEARCH DATA', searchedData)
-  const { addUserID } = useContext(AppContext);
+  // const { addUserID } = useContext(AppContext);
   const { searchedData, selectFood } = useContext(AppContext);
-  const { favFood, setFavFood } = useContext(AppContext);
-  const { addFavFood } = useContext(AppContext);
-  const [userID, setUserID] = useState();
-  const { showHome } = useContext(AppContext);
+  const [btnAvailableDel, setBtnAvailableDel] = useState(false);
+  const [btnAvailableAdd, setBtnAvailableAdd] = useState(true);
+  const { changeSearchBarShowMode } = useContext(AppContext);
+
+  // const { favFood, setFavFood } = useContext(AppContext);
+  // const { addFavFood } = useContext(AppContext);
+  // const [userID, setUserID] = useState();
+  // const { showHome } = useContext(AppContext);
 
 
-const provera = () => {
-  auth.onAuthStateChanged( user => {
-    if( user ){
-        addUserID(user.uid)
-        console.log('user je home',user.uid)
-        // console.log('user je =>', user)
-        
+// const provera = () => {
+//   auth.onAuthStateChanged( user => {
+//     if( user ){
+//         addUserID(user.uid)
+//         // console.log('user je home',user.uid)
+//         favoriteFood(user)
+//     } else {
+//         console.log('nema usera home')
+//     }
+// })}
 
-        favoriteFood(user)
-
-
-    } else {
-        console.log('nema usera home')
-    }
-})}
-
-
-const favoriteFood = (user) => {
-  db.collection(user.uid).get().then((querySnapshot) => {
-    const collection = [];
-        querySnapshot.forEach((doc) => {
-        collection[doc.id] = doc.data();
-        });
-        addFavFood(formatData(collection))
-        // console.log('home odradio dodavanje favFood')
-      }  
-  )
-    }
+// const favoriteFood = (user) => {
+//   db.collection(user.uid).get().then((querySnapshot) => {
+//     const collection = [];
+//         querySnapshot.forEach((doc) => {
+//         collection[doc.id] = doc.data();
+//         });
+//         addFavFood(formatData(collection))
+//       }  
+//     )
+//   }
 
 // const formatData = (responseData) => {
-//   const data = responseData;
+//   const data = [];
 //   for (const user in responseData) {
 //       data.push({
 //           ...responseData[user],
@@ -163,126 +160,31 @@ const favoriteFood = (user) => {
 //   return data;
 // }
 
-const formatData = (responseData) => {
-  const data = [];
-  for (const user in responseData) {
-      data.push({
-          ...responseData[user],
-          firestoreId: user,
-      })
-  }
-  return data;
-}
+changeSearchBarShowMode(true)
 
-// setTimeout(() => {
-//   provera()
-// }, 10000)
-
-useEffect(() => {
-  provera()
+// useEffect(() => {
+//   setShowSearch(true)
   
-}, [])
+// }, [])
 
 
   return searchedData.q !== undefined  ? (
     <div className='body-page-launch'>
       <div className='launchess'>
-        {/* {console.log('data je')} */}
-         <FoodList data={ searchedData } selectData={ selectFood }/>
-         {console.log('SEARCHED data', searchedData)}
-         { showModal &&
-          <Food /> 
-         }
-         
+        <FoodList data={ searchedData } selectData={ selectFood }/>
+        {/* {console.log('SEARCHED data', searchedData)} */}
+        { showModal &&
+          <Food del={ btnAvailableDel } add={ btnAvailableAdd } /> 
+        }
       </div> 
     </div> 
   ) : (
     <div className='body-page-launch'>
       <div className='launchess'>
         <h1>Home</h1>
-        {/* {console.log('DATA nema HOME', searchedData)} */}
-        {/* {console.log('data je')} */}
-         {/* <FoodList /> */}
-        {/* <Food />   */}
       </div> 
     </div> 
   )
-//   const [useriD, setUserID] = useState();
-  
-
-//   const { addFavFood } = useContext(AppContext);
-//   // const { useriD } = useState();
-//   const { favoriteFood, setFavFood  } = useState();
-
-  
-
-//   const trackingAuthStatus = () => {
-//     auth.onAuthStateChanged( user => {
-//         if( user ){
-//             addUser(user.uid)
-//             setupUI(user)
-//             console.log('user je =>', user)
-//         } else {
-//             setupUI()
-//             console.log('else je')
-//         }
-//     })
-// }
-
-  
-
-
-//   const setupUI = (user) => {
-
-//     const loggedInLinks = document.querySelectorAll('.logged-in');
-//     const loggedOutLinks = document.querySelectorAll('.logged-out');
-
-//     if( user ){
-
-//     db.collection(useriD).get().then((querySnapshot) => {
-
-//         const collection = [];
-//         querySnapshot.forEach((doc) => {
-//         collection[doc.id] = doc.data();  
-//         });
-//         addFavFood(formatData(collection))
-//         console.log('data je', (formatData(collection)))
-//         // this.setState({
-//         // favoriteFood : formatData(collection)
-//         // })
-//     });
-
-//     loggedInLinks.forEach( item => item.style.display = 'block');
-//     loggedOutLinks.forEach( item => item.style.display = 'none');
-//     } else {
-//     loggedInLinks.forEach( item => item.style.display = 'none');
-//     loggedOutLinks.forEach( item => item.style.display = 'block');
-//     }
-// }
-
-
-//   const formatData = (responseData) => {
-//     const data = [];
-//     for (const user in responseData) {
-//         data.push({
-//             ...responseData[user],
-//             firestoreId: user,
-//         })
-//     }
-//     return data;
-// }
-
-// trackingAuthStatus()
-
-  // return (
-  //   <div className='body-page-launch'>
-  //     <div className='launchess'>
-  //       {/* {console.log('data je')} */}
-  //        <FoodList />
-  //       {/* <Food />   */}
-  //     </div> 
-  //   </div> 
-  // )
 }
 
 export default Home;

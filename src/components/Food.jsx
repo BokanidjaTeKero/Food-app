@@ -168,7 +168,7 @@ import './Food.css';
 import Slide from 'react-reveal/Slide';
 
 
-function Food() {
+const Food = ({ del, add }) => {
     
     // const { selectFood } = useContext(AppContext);
     const { ingData, nutDataEven, nutDataOdd } = useContext(AppContext);
@@ -186,14 +186,16 @@ function Food() {
                 <button onClick={ () => closeModal() } className="btn-floating btn-small waves-effect waves-light light-green btn right">
                     <i className="material-icons">close</i>
                 </button>
-
+                { del &&
                 <button onClick={() => deleteFood(selectedFood)} className="btn-floating btn-small waves-effect waves-light light-green btn right">
                     <i className="material-icons">delete</i>
                 </button>
+                }
+                { add &&
                 <button onClick={() => addToFavorite(selectedFood)} className="btn-floating btn-small waves-effect waves-light light-green btn right">
                     <i className="material-icons">add</i>
                 </button>
-
+                }
                 <div className='food-modal-content-data'>
                     <div className='food-modal-content content-img'>
                         <img src={ selectedFood.recipe.image } alt={ selectedFood.recipe.image }/>
