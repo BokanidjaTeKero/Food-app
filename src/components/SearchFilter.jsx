@@ -292,16 +292,28 @@ const SearchFilter = () => {
     const { deployingUrl } = useContext(AppContext);
     const { handleCheckBox } = useContext(AppContext);
     const { handleCaloriesBox } = useContext(AppContext);
+    const { searchedData } = useContext(AppContext);
     const [ food, setFood ] = useState('');
     const [ filter, setFilter ] = useState( false );
+
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [postsPerPage] = useState(10);
+    // const [currentPosts, setCurrentPosts] = useState();
+
+    // const getPosts = (currentPosts, data) => {
+    //     currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
+    //     setCurrentPosts(currentPosts)
+    // }
     
     const getData = (e) => {
         e.preventDefault()
         activeLoader(true);
-        axios.get(`https://api.edamam.com/search?q=${ food }${ myHealth }${ myDiet }&app_id=${ apiReqData.id }&app_key=${ apiReqData.key }${ myCalories }`)
+        axios.get(`https://api.edamam.com/search?q=${ food }${ myHealth }${ myDiet }&app_id=${ apiReqData.id }&app_key=${ apiReqData.key }${ myCalories }&from=0&to=100`)
         .then(req => addData(req.data))
+        // .then(() => getPosts(searchedData))
         .then(() => setFood(''))
         .then(()=> activeLoader(false))
+        .then(() => console.log('iz get search ==>',searchedData))
     }
 
     const toggleFilter = (e) => {
@@ -313,6 +325,10 @@ const SearchFilter = () => {
         open : { class : ' swing-in-top-fwd' },
         close : { class : ' swing-out-top-bck' }
     }
+
+    // const indexOfLastPost = currentPage * postsPerPage;
+    // const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    // const currentPosts = searchedData.slice(indexOfFirstPost, indexOfLastPost);
 
     const filterMenu = filter ? filterShow.open : filterShow.close;
     return (

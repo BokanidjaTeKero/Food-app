@@ -10,6 +10,34 @@ const AppContextProvider = (props) => {
         setSearchedData(searchedData)
     }
 
+// pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(10);
+    const [currentPosts, setCurrentPosts] = useState();
+
+    // const getPosts = ( data) => {
+    //     // currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
+    //     setCurrentPosts(data.slice(indexOfFirstPost, indexOfLastPost))    }
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+
+
+    const getPosts = (searchedData) => {
+        // currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
+        if(searchedData !== undefined){
+            setCurrentPosts(searchedData.hits.slice(indexOfFirstPost, indexOfLastPost))
+        }
+         
+       };
+
+// useEffect(() => {
+//     getPosts(searchedData);
+//     console.log('searched data', searchedData)
+// }, [searchedData])
+
+
+
 // favorite food data
     const [favFood, setFavFood] = useState({});
     const addFavFood = (favFood) => {
@@ -303,7 +331,7 @@ const [myMaxCal, setMyMaxCal] = useState('');
                                     handleCheckBox, filter, handleCaloriesBox,
                                     myCalories, addUserID, addToFavorite, userID, setUserID,
                                     addFavFood, favFood, deleteFood, btnAvailable, showSearch,
-                                    changeSearchBarShowMode
+                                    changeSearchBarShowMode, currentPosts, getPosts
                                     }}>
             {props.children}
         </AppContext.Provider>
@@ -311,4 +339,3 @@ const [myMaxCal, setMyMaxCal] = useState('');
 }
 
 export default AppContextProvider;
-

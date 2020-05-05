@@ -109,73 +109,47 @@ import { AppContext } from '../contexts/AppContext';
 
 import FoodList from './FoodList';
 import Food from './Food';
+import Pagination from './Pagination';
 
 const Home = () => {
-  // const { searchedData } = useContext(AppContext);
-  // const { show } = useContext(AppContext);
   const { showModal } = useContext(AppContext);    
-  // console.log('HOME SEARCH DATA', searchedData)
-  // const { addUserID } = useContext(AppContext);
   const { searchedData, selectFood } = useContext(AppContext);
   const [btnAvailableDel, setBtnAvailableDel] = useState(false);
   const [btnAvailableAdd, setBtnAvailableAdd] = useState(true);
   const { changeSearchBarShowMode } = useContext(AppContext);
 
-  // const { favFood, setFavFood } = useContext(AppContext);
-  // const { addFavFood } = useContext(AppContext);
-  // const [userID, setUserID] = useState();
-  // const { showHome } = useContext(AppContext);
+  // const [posts, setPosts] = useState([]);
+  // const [loader, setLoader] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10)
+  const { currentPosts } = useContext(AppContext);
 
-
-// const provera = () => {
-//   auth.onAuthStateChanged( user => {
-//     if( user ){
-//         addUserID(user.uid)
-//         // console.log('user je home',user.uid)
-//         favoriteFood(user)
-//     } else {
-//         console.log('nema usera home')
-//     }
-// })}
-
-// const favoriteFood = (user) => {
-//   db.collection(user.uid).get().then((querySnapshot) => {
-//     const collection = [];
-//         querySnapshot.forEach((doc) => {
-//         collection[doc.id] = doc.data();
-//         });
-//         addFavFood(formatData(collection))
-//       }  
-//     )
-//   }
-
-// const formatData = (responseData) => {
-//   const data = [];
-//   for (const user in responseData) {
-//       data.push({
-//           ...responseData[user],
-//           firestoreId: user,
-//       })
-//   }
-//   return data;
-// }
-
-changeSearchBarShowMode(true)
-
-// useEffect(() => {
-//   setShowSearch(true)
+// Get current posts
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  // const currentPosts = searchedData.slice(indexOfFirstPost, indexOfLastPost);
   
-// }, [])
+  
 
+// Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  changeSearchBarShowMode(true)
 
   return searchedData.q !== undefined  ? (
     <div className='body-page-launch'>
       <div className='launchess'>
-        <FoodList data={ searchedData } selectData={ selectFood }/>
-        {/* {console.log('SEARCHED data', searchedData)} */}
+      {console.log('CURR POST ==>', currentPosts)}
+        <FoodList data={ searchedData.hits.slice(indexOfFirstPost, indexOfLastPost) } selectData={ selectFood }/>
+        {console.log('rezultat', searchedData.hits.slice(indexOfFirstPost, indexOfLastPost))} 
         { showModal &&
           <Food del={ btnAvailableDel } add={ btnAvailableAdd } /> 
         }
+        <Pagination 
+          postsPerPage={postsPerPage}
+          totalPosts={searchedData.hits.length}
+          paginate={paginate}
+        />
       </div> 
     </div> 
   ) : (
