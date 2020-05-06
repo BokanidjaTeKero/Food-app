@@ -1,0 +1,43 @@
+
+.home-container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100%; */
+}
+
+.home-content {
+    text-align: center;
+    padding: 0 10%;
+    color: white;
+}
+
+.margin-top {
+    margin-top: 150px;
+}
+
+.orange-c {
+    color: orange;
+}
+
+.green-c {
+    color: greenyellow;
+}
+
+.black-c {
+    color: black;
+}
+
+/* RESPONSIVE */
+
+@media only screen and (max-width: 1620px) {
+
+    .home-content {
+        text-align: center;
+        /* padding: 0 10%; */
+        color: white;
+        width: 100%;
+    }
+
+}

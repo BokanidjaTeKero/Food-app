@@ -219,3 +219,61 @@ input {
     padding: 0!important;
     text-align: start;
 }
+
+/* RESPONSIVE */
+
+@media only screen and (max-width: 1620px) {
+  
+}
+
+
+@media only screen and (max-width: 1440px) {
+
+  .SearchFilter {
+    left: 5px;
+    width: 400px;
+    background-color: blueviolet;
+  }
+
+  .searchFilter-container {
+    width: 400px;
+    margin-left: 5px;
+  }
+
+  .btn {
+    width: 35px !important;
+    height: 30px !important;
+    border-radius: 5px;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+
+}
+
+@media only screen and (max-width: 950px) {
+
+  .search-input {
+    max-width: 200px;
+    margin: 0 5px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+
+  .SearchFilter {
+    width: 300px;
+    background-color: blueviolet;
+  }
+
+  .searchFilter-container {
+    width: 300px;
+    margin-left: 2px;
+  }
+
+  .search-input {
+    max-width: 150px;
+    margin: 0 2px;
+    font-size: small;
+  }
+}

@@ -18,8 +18,7 @@
     background-color: rgba(180, 180, 180, 0.137);
     z-index: 100;
     overflow: hidden;
-    padding: 10px;
-    
+    padding: 5px;
 }
 
 .test {
@@ -38,6 +37,10 @@
     align-items: center;
     padding: 5px;
     overflow: hidden;
+}
+
+.food-modal-content-data span {
+    font-size: small;
 }
 
 .food-modal-content {
@@ -142,4 +145,74 @@
 
 .nut-data-item:nth-child(even) {
     color: orange;
+}
+
+/* RESPONSIVE */
+
+@media only screen and (max-width: 1620px) {
+
+    .food-modal-content-data span {
+        font-size: small;
+    }
+}
+
+
+@media only screen and (max-width: 1440px) {
+
+    .food-modal-content-data span {
+        font-size: x-small;
+    }
+
+    .content-nut {
+        justify-content: flex-start;
+    }
+}
+
+@media only screen and (max-width: 1300px) {
+
+    .test {
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 950px) {
+
+    .prvi {
+        top: 100px;
+    }
+
+    .food-modal-content-data {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .food-modal-content {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+
+    .nut-data {
+        justify-content: center;
+        padding: 2px;
+    }
+    
+    .nut-data-container>h3 {
+        font-size: 0.8rem;
+        padding: 5px;
+        width: fit-content;
+    }
+    
+    .nut-data-list {
+        width: 45%;
+        margin: 2px;
+    }
+
+    .content-nut>h1 {
+        font-size: 1.5rem;
+    }    
 }
