@@ -33,6 +33,10 @@
 
 @media only screen and (max-width: 1620px) {
 
+    .home-container {
+        padding: 0px!important;
+    }
+
     .home-content {
         text-align: center;
         /* padding: 0 10%; */

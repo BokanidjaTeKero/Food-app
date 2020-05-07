@@ -8,7 +8,7 @@
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    margin: 0 10px;
+    margin: 0px;
 }
 
 .searchFilter-container {
@@ -56,12 +56,8 @@ input {
     background-color: #383d3380;
     position: absolute;
     top: 60px;
-    left: 0px;
-    width: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    left: -5px;
+    width: 500px;
     margin-top: 4px; 
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -159,9 +155,7 @@ input {
     justify-content: center;
     text-align: center;
     flex-direction: column;
-    padding: 20px 10px;
-
-    
+    padding: 10px 10px; 
 }
 
 .forms-content {
@@ -222,17 +216,11 @@ input {
 
 /* RESPONSIVE */
 
-@media only screen and (max-width: 1620px) {
-  
-}
-
-
 @media only screen and (max-width: 1440px) {
 
   .SearchFilter {
     left: 5px;
     width: 400px;
-    background-color: blueviolet;
   }
 
   .searchFilter-container {
@@ -247,10 +235,6 @@ input {
   }
 }
 
-@media only screen and (max-width: 1300px) {
-
-}
-
 @media only screen and (max-width: 950px) {
 
   .search-input {
@@ -263,7 +247,6 @@ input {
 
   .SearchFilter {
     width: 300px;
-    background-color: blueviolet;
   }
 
   .searchFilter-container {
@@ -275,5 +258,77 @@ input {
     max-width: 150px;
     margin: 0 2px;
     font-size: small;
+  }
+
+  .form-chbox {
+    padding: 0 2px;
+  }
+
+  .filter-form {
+      min-width: 150px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  
+  .forms-container {
+    top: 52px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  
+  .forms-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .forms-contents {
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 0px;
+    width: 100%; 
+    height: 100%;
+  }
+
+  .forms-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-chbox {
+    margin: 0 auto!important;
+  }
+}
+
+@media only screen and (max-width: 410px) {
+
+  .SearchFilter {
+    width: 300px;
+  }
+
+  .searchFilter-container {
+    position: absolute;
+    left: -5px;
+    top: 25px;
+    width: 300px;
+    background-color: red;
+  }
+
+  .search-input {
+    max-width: 100px;
+    margin-left: 2px;
+    font-size: small;
+  }
+
+  .btn {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 5px;
+    margin: 2px;
   }
 }
