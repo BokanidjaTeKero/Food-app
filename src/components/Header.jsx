@@ -54,7 +54,6 @@ const filterMenu = filter ? filterShow.open : filterShow.close;
                 <div className='loader'></div>
             </div>
             }
-            
         </div>
     )
 }

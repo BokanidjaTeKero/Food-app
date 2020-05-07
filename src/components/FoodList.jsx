@@ -12,8 +12,8 @@ const cardsList = data !== undefined ? (
                 <div className="column" key={ card.firestoreId || uuid() } onClick={ () => { selectData( card ) } } >
                     <div className='prow prow1'>
                     <div>
-                        <div className="thumb_nb" style={{backgroundImage: `url(${ card.recipe.image })`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
-                        <div className='thumb_color' style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
+                        <div className="thumb-nb" style={{backgroundImage: `url(${ card.recipe.image })`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
+                        <div className='thumb-color' style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
                         <div className="description">
                             <p>{ card.recipe.label }</p>
                         </div>
@@ -26,8 +26,8 @@ const cardsList = data !== undefined ? (
                 <div className="column" key={ card.firestoreId || uuid() } onClick={ () => { selectData( card ) } } >
                     <div className='prow prow2'>
                     <div>
-                        <div className="thumb_nb" style={{backgroundImage: `url(${ card.recipe.image })`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
-                        <div className='thumb_color' style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
+                        <div className="thumb-nb" style={{backgroundImage: `url(${ card.recipe.image })`, backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
+                        <div className='thumb-color' style={{backgroundImage: `url(${ card.recipe.image })`}}></div>
                         <div className="description">
                             <p>{ card.recipe.label }</p>
                         </div>
@@ -54,5 +54,3 @@ const cardsList = data !== undefined ? (
 }
 
 export default FoodList;
-
-

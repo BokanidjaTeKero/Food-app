@@ -19,10 +19,6 @@
 	margin: 0;
 }
 
-.LogReg h2 {
-	text-align: center;
-}
-
 .LogReg p {
 	font-size: 14px;
 	font-weight: 100;
@@ -255,3 +251,32 @@
 	background: linear-gradient(45deg, #f35415, #f32314);
 	color: black;
 }
+
+/* RESPONSIVE */
+
+@media only screen and (max-width: 1440px) {
+
+	.LogReg h1 {
+		font-weight: bold;
+		margin: 0;
+		font-size: large;
+	}
+
+	.LogReg p {
+		font-size: small;
+	}
+}
+
+@media only screen and (max-width: 700px) {
+
+	.LogReg .container {
+		width: 80%;
+	}
+}	
+
+@media only screen and (max-width: 500px) {
+
+	.LogReg .container {
+		width: 100%;
+	}
+}	

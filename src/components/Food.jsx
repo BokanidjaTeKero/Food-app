@@ -16,8 +16,8 @@ const Food = ({ del, add }) => {
 
     return (
         <Slide left when={ show }>
-            <div className='prvi'>
-            <img src={require('../assets/modalBg1.jpeg') } alt='bgimg' className='test'/>
+            <div className='main-food-container'>
+            <img src={require('../assets/modalBg1.jpeg') } alt='bgimg' className='bg-image'/>
             <div id='food-modal' className='food-modal-container'>
                 <button onClick={ () => closeModal() } className="btn-floating btn-small waves-effect waves-light light-green btn right">
                     <i className="material-icons">close</i>

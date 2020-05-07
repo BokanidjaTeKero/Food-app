@@ -4,7 +4,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 100%; */
 }
 
 .home-content {
@@ -38,9 +37,6 @@
     }
 
     .home-content {
-        text-align: center;
-        /* padding: 0 10%; */
-        color: white;
         width: 100%;
     }
 

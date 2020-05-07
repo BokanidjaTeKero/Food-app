@@ -11,32 +11,19 @@ const AppContextProvider = (props) => {
     }
 
 // pagination
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage] = useState(1);
     const [postsPerPage] = useState(10);
     const [currentPosts, setCurrentPosts] = useState();
-
-    // const getPosts = ( data) => {
-    //     // currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
-    //     setCurrentPosts(data.slice(indexOfFirstPost, indexOfLastPost))    }
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
 
 
     const getPosts = (searchedData) => {
-        // currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
         if(searchedData !== undefined){
             setCurrentPosts(searchedData.hits.slice(indexOfFirstPost, indexOfLastPost))
         }
-         
-       };
-
-// useEffect(() => {
-//     getPosts(searchedData);
-//     console.log('searched data', searchedData)
-// }, [searchedData])
-
-
+    };
 
 // favorite food data
     const [favFood, setFavFood] = useState({});
@@ -89,7 +76,7 @@ const [myMaxCal, setMyMaxCal] = useState('');
         setMyDiet( urlConfig( dietChBoxValues, 'diet' ))
         setMyCalories( caloriesUrlConfig( myMinCal, myMaxCal ))
         
-        setFilter(false) // OVO SREDI !!!!!!!!!!!!!!!!!!!!!!!!!!!
+        setFilter(false)
     }
     
     const urlConfig = ( data, type ) => {
@@ -224,8 +211,6 @@ const [myMaxCal, setMyMaxCal] = useState('');
 
 // adding food to favorite 
     const addToFavorite = ( food ) => {
-        console.log('OVA je DODATA U FAV ==>', food.recipe.image)
-        console.log('UID ==>', userID)
         let hits = food;
         let comparator = food.recipe.image;
 
@@ -238,10 +223,10 @@ const [myMaxCal, setMyMaxCal] = useState('');
             db.collection( userID ).add(
                 hits
             ).then(() => { getFavoriteFoodData()}).catch(( err ) => {
-            console.log('greska', err)
+            
             })
         ) : (
-            console.log('HRANA POSTOJI VEC')
+            console.log('Food do not exist')
         )
     }
 
@@ -257,15 +242,13 @@ const [myMaxCal, setMyMaxCal] = useState('');
     }
 
     useEffect(() => {
-        console.log('FAV FOOD JE USE EFF ==>', favFood)
+
     }, [favFood])
 
 // delete favorite food
     const deleteFood = (food) => {
-        console.log('delete', food.firestoreId)
-        db.collection(userID).doc(food.firestoreId).delete().then(() => {
-            console.log("Document successfully deleted!");
-        }).catch(error => {
+
+        db.collection(userID).doc(food.firestoreId).delete().catch(error => {
             console.error("Error removing document: ", error);
         });
         getFavoriteFoodData()
@@ -283,15 +266,12 @@ const [myMaxCal, setMyMaxCal] = useState('');
         })
     }
 
-    const provera = () => {
+    const check = () => {
         auth.onAuthStateChanged( user => {
         if( user ){
             addUserID(user.uid)
-            // console.log('user je home',user.uid)
             favoriteFood(user)
-        } else {
-            console.log('nema usera home')
-        }
+        } 
     })}
 
     const favoriteFood = (user) => {
@@ -310,13 +290,8 @@ const [myMaxCal, setMyMaxCal] = useState('');
         add : true
     }
 
-    // const [showSearch, setShowSearch] = useState();
-
-    // const [btnAvailableDel, setBtnAvailableDel] = useState();
-    // const [btnAvailableAdd, setBtnAvailableAdd] = useState();
-
     useEffect(() => {
-        provera()
+        check()
         
     }, [userID])
 

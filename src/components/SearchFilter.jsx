@@ -13,7 +13,6 @@ const SearchFilter = () => {
     const { deployingUrl } = useContext(AppContext);
     const { handleCheckBox } = useContext(AppContext);
     const { handleCaloriesBox } = useContext(AppContext);
-    const { searchedData } = useContext(AppContext);
     const [ food, setFood ] = useState('');
     const [ filter, setFilter ] = useState( false );
 
@@ -24,7 +23,6 @@ const SearchFilter = () => {
         .then(req => addData(req.data))
         .then(() => setFood(''))
         .then(()=> activeLoader(false))
-        .then(() => console.log('iz get search ==>',searchedData))
     }
 
     const toggleFilter = (e) => {

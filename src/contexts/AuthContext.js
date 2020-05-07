@@ -11,16 +11,6 @@ const AuthContextProvider = (props) => {
         {regEmail : '', regPassword : ''}
     ]);
 
-
-    // const [useriD, setUseriD] = useState([
-    //     {userid : ''}
-    // ]);
-
-    // const addUserID = (userid) => {
-    //     setUseriD([{userid}])
-    // }
-
-
 // notifications
 const notificationShow = {
     activity : {
@@ -93,7 +83,6 @@ const notificationMsg = {
     )
     const toggleMenu = () => {
         setMenu(!menU)
-        console.log(menU)
     }
     const menuClasses = {
         reg : {
@@ -120,11 +109,3 @@ const notificationMsg = {
 }
 
 export default AuthContextProvider;
-
- // const [useriD, setUseriD] = useState([
-    //     {userid : ''}
-    // ]);
-
-    // const addUserID = (userid) => {
-    //     setUseriD([{userid}])
-    // }
