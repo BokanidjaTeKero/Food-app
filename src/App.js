@@ -10,6 +10,14 @@ import LogReg from './components/LogReg';
 import Home from './components/Home';
 import User from './components/User';
 
+// SDK error, tring to make it work
+// import 'firebase/auth';       
+// import 'firebase/storage';    
+// import 'firebase/database';   
+// import 'firebase/firestore';   
+// import 'firebase/messaging';   
+// import 'firebase/functions'; 
+
 
 const App = () => {
 
@@ -50,11 +58,11 @@ const App = () => {
 
   // window.onload(console.log('load'))
 
-// useEffect(() => {
-//   trackingAuthStatus()
-// }, [])
+useEffect(() => {
+  trackingAuthStatus()
+}, [])
 
-trackingAuthStatus()
+// trackingAuthStatus()
 
   return(
     <BrowserRouter>
