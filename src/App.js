@@ -15,6 +15,7 @@ const App = () => {
 
   const [userID, setUserID] = useState();
 
+  console.log('userID ==>', userID)
   const trackingAuthStatus = () => {
     auth.onAuthStateChanged( user => {
         if( user ){
@@ -46,6 +47,8 @@ const App = () => {
     loggedOutLinks.forEach( item => item.style.display = 'block');
     }
   }
+
+  // window.onload(console.log('load'))
 
 useEffect(() => {
   trackingAuthStatus()
