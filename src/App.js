@@ -10,13 +10,8 @@ import LogReg from './components/LogReg';
 import Home from './components/Home';
 import User from './components/User';
 
-// SDK error, tring to make it work
-// import 'firebase/auth';       
-// import 'firebase/storage';    
-// import 'firebase/database';   
-// import 'firebase/firestore';   
-// import 'firebase/messaging';   
-// import 'firebase/functions'; 
+import 'materizlize-css/dist/css/materialize.min.css';
+import M from 'materialize-css';
 
 
 const App = () => {
