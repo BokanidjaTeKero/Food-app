@@ -10,7 +10,7 @@ import LogReg from './components/LogReg';
 import Home from './components/Home';
 import User from './components/User';
 
-import 'materizlize-css/dist/css/materialize.min.css';
+// import '../../css/materialize.min.css';
 // import M from 'materialize-css';
 
 
