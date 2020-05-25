@@ -50,9 +50,11 @@ const App = () => {
 
   // window.onload(console.log('load'))
 
-useEffect(() => {
-  trackingAuthStatus()
-}, [])
+// useEffect(() => {
+//   trackingAuthStatus()
+// }, [])
+
+trackingAuthStatus()
 
   return(
     <BrowserRouter>
